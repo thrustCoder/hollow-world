@@ -1,3 +1,3 @@
 # hollow-world
 
-This is just a simple hollow world. Really.
+This is just a simple hollow world.
