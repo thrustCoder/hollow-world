@@ -9,7 +9,25 @@ public class Main
     {
         System.out.println("Hollow world prep from local intelliJ!!");
 
-        mergeSortedLinkedLists();
+        reverseLinkedList();
+    }
+
+    private static void reverseLinkedList() {
+        // create list
+        LinkedListNode l11 = new LinkedListNode(1);
+        LinkedListNode l12 = new LinkedListNode(3);
+        LinkedListNode l13 = new LinkedListNode(5);
+        LinkedListNode l14 = new LinkedListNode(7);
+        l11.setNext(l12);
+        l12.setNext(l13);
+        l13.setNext(l14);
+        System.out.println("--List--");
+        LinkedList.print(l11);
+
+        // merge lists
+        LinkedListNode l21 = LinkedList.reverse(l11);
+        System.out.println("--Reversed List--");
+        LinkedList.print(l21);
     }
 
     private static void mergeSortedLinkedLists() {

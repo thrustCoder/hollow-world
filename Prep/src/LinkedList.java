@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  * Created by rpsin on 10/8/2016.
  */
@@ -18,5 +20,27 @@ public class LinkedList {
             current = current.next();
         }
         System.out.print("\n\n");
+    }
+
+    public static LinkedListNode reverse(LinkedListNode head) {
+        Stack<LinkedListNode> stack = new Stack<>();
+        LinkedListNode current = head;
+
+        while (current != null) {
+            stack.push(current);
+            current = current.next();
+        }
+
+        LinkedListNode newHead = stack.pop();
+        current = newHead;
+
+        while (!stack.isEmpty()) {
+            LinkedListNode topNode = stack.pop();
+            topNode.setNext(null);
+            current.setNext(topNode);
+            current = current.next();
+        }
+
+        return newHead;
     }
 }
