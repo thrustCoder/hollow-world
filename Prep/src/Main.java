@@ -9,7 +9,7 @@ public class Main
     {
         System.out.println("Hollow world prep from local intelliJ!!");
 
-        reverseLinkedList();
+        NumberMagic.printPrimeFactors(12);
     }
 
     private static void reverseLinkedList() {
