@@ -1,3 +1,5 @@
+import service.IntervalOperations;
+
 import java.io.IOException;
 
 /**
@@ -9,7 +11,7 @@ public class Main
     {
         System.out.println("Hollow world prep from local intelliJ!!");
 
-        NumberMagic.printPrimeFactors(12);
+        IntervalOperations.mergeIntervals();
     }
 
     private static void reverseLinkedList() {
