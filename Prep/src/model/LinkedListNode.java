@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Created by rpsin on 10/8/2016.
  */

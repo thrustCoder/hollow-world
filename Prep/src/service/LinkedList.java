@@ -1,3 +1,7 @@
+package service;
+
+import model.LinkedListNode;
+
 import java.util.Stack;
 
 /**
