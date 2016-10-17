@@ -35,9 +35,11 @@ public class BFS {
     }
 
     public static boolean BFS(Graph g, GraphNode start, GraphNode end) {
+        // unset visited state
         g.getNodes().parallelStream()
                 .forEach(node -> {node.setState(VisitedState.UNVISITED);});
 
+        // initialize queue
         // Queue is an abstract class, so we use LinkedList to mimic Queue
         java.util.LinkedList<GraphNode> q = new LinkedList<>();
 
@@ -52,6 +54,8 @@ public class BFS {
             if (node != null) {
                 // for each node in adjacent nodes
                 for (GraphNode adjNode: node.getAdjacentNodes()) {
+
+                    // you want to visit only if unvisited
                     if (adjNode.getState() == VisitedState.UNVISITED) {
                         adjNode.setState(VisitedState.VISITING);
 

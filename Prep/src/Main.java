@@ -1,5 +1,6 @@
 import model.LinkedListNode;
 import service.BFS;
+import service.DFS;
 import service.IntervalOperations;
 import service.LinkedList;
 import util.FileParser;
@@ -15,7 +16,7 @@ public class Main
     {
         System.out.println("Hollow world can light up!");
 
-        BFS.prepareBFS();
+        DFS.prepareDFS();
     }
 
     private static void swapBitiWithj()
