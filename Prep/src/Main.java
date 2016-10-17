@@ -1,8 +1,4 @@
-import model.LinkedListNode;
-import service.BFS;
-import service.DFS;
-import service.IntervalOperations;
-import service.LinkedList;
+import service.*;
 import util.FileParser;
 
 import java.io.IOException;
@@ -16,7 +12,7 @@ public class Main
     {
         System.out.println("Hollow world can light up!");
 
-        DFS.prepareDFS();
+        TreeTraversal.prepCreateInorderArray();
     }
 
     private static void swapBitiWithj()
