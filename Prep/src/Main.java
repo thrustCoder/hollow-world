@@ -12,7 +12,7 @@ public class Main
     {
         System.out.println("Hollow world can light up!");
 
-        TreeTraversal.prepCreateInorderArray();
+        TreeOperations.prepFindPathsWithSum();
     }
 
     private static void swapBitiWithj()
