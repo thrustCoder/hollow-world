@@ -1,4 +1,7 @@
+import model.LinkedListNode;
+import service.BFS;
 import service.IntervalOperations;
+import service.LinkedList;
 import util.FileParser;
 
 import java.io.IOException;
@@ -10,9 +13,9 @@ public class Main
 {
     public static void main(String[] arg)
     {
-        System.out.println("Hollow world prep from local intelliJ!!");
+        System.out.println("Hollow world can light up!");
 
-        IntervalOperations.mergeIntervals();
+        BFS.prepareBFS();
     }
 
     private static void swapBitiWithj()
