@@ -12,7 +12,7 @@ public class Main
     {
         System.out.println("Hollow world can light up!");
 
-        TreeOperations.prepFindPathsWithSum();
+        NumberMagic.printPow();
     }
 
     private static void swapBitiWithj()
