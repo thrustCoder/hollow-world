@@ -2,12 +2,79 @@ package service;
 
 import model.LinkedListNode;
 
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by rpsin on 10/8/2016.
  */
 public class LinkedList {
+
+    public static void copyListWithRandomPointer() {
+        // Q MSFT question to copy a linked list which can contain circles, and each node has an additional random pointer to some other node
+        // https://www.careercup.com/question?id=15294742
+
+        // create list
+        LinkedListNode l11 = new LinkedListNode(1);
+        LinkedListNode l12 = new LinkedListNode(2);
+        LinkedListNode l13 = new LinkedListNode(3);
+        LinkedListNode l14 = new LinkedListNode(4);
+        l11.setNext(l12);
+        l12.setNext(l13);
+        l13.setNext(l14);
+        l14.setNext(l12);
+        l11.setOther(l14);
+        System.out.println("--List 1 nexts--");
+        print(l11);
+        System.out.println("--List 1 others--");
+        printWithOther(l11);
+
+        // copy list
+        LinkedListNode l21 = copyListWithRandomPointer(l11);
+        System.out.println("--Copied List nexts--");
+        print(l21);
+        System.out.println("--Copied List otherss--");
+        printWithOther(l21);
+    }
+
+    public static LinkedListNode copyListWithRandomPointer(LinkedListNode head) {
+        LinkedListNode current = head;
+        LinkedListNode head2 = new LinkedListNode(0);
+        LinkedListNode current2 = new LinkedListNode(0);
+
+        Map<LinkedListNode, LinkedListNode> nodeMap = new HashMap<>();
+        Set<LinkedListNode> visitedSet = new HashSet<>();
+
+        while (current != null && !visitedSet.contains(current)) {
+            LinkedListNode newNode = new LinkedListNode(current.data());
+
+            if (current == head) {
+                head2 = newNode;
+                current2 = head2;
+            } else {
+                current2.setNext(newNode);
+                current2 = current2.next();
+            }
+
+            nodeMap.put(current, current2);
+
+            visitedSet.add(current);
+            current = current.next();
+        }
+
+        current = head;
+        visitedSet = new HashSet<>();
+        current2 = head2;
+
+        while (current != null && !visitedSet.contains(current)) {
+            current2.setOther(nodeMap.get(current.other()));
+
+            visitedSet.add(current);
+            current = current.next();
+            current2 = current2.next();
+        }
+
+        return head2;
+    }
 
     public static void intersectSortedLinkedLists() {
         // Q Find intersection of two sorted lists
@@ -80,7 +147,9 @@ public class LinkedList {
         LinkedListNode current = head;
         boolean isFirst = true;
 
-        while (current != null) {
+        Set<LinkedListNode> visitedSet = new HashSet<>();
+
+        while (current != null && !visitedSet.contains(current)) {
             if (isFirst) {
                 System.out.print(current.data());
                 isFirst = false;
@@ -88,7 +157,28 @@ public class LinkedList {
                 System.out.print(" -> " + current.data());
             }
 
+            visitedSet.add(current);
             current = current.next();
+        }
+        System.out.print("\n\n");
+    }
+
+    public static void printWithOther(LinkedListNode head) {
+        LinkedListNode current = head;
+        boolean isFirst = true;
+
+        Set<LinkedListNode> visitedSet = new HashSet<>();
+
+        while (current != null && !visitedSet.contains(current)) {
+            if (isFirst) {
+                System.out.print(current.data());
+                isFirst = false;
+            } else {
+                System.out.print(" -> " + current.data());
+            }
+
+            visitedSet.add(current);
+            current = current.other();
         }
         System.out.print("\n\n");
     }

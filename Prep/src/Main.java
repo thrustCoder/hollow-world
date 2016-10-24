@@ -12,7 +12,7 @@ public class Main
     {
         System.out.println("Hollow world can light up!");
 
-        NumberMagic.printPow();
+        LinkedList.copyListWithRandomPointer();
     }
 
     private static void swapBitiWithj()
