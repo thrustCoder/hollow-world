@@ -12,7 +12,7 @@ public class Main
     {
         System.out.println("Hollow world can light up!");
 
-        LinkedList.copyListWithRandomPointer();
+        NumberMagic.waysToSum();
     }
 
     private static void swapBitiWithj()

@@ -3,12 +3,41 @@ package service;
 import util.Printer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by rpsin on 10/12/2016.
  */
 public class NumberMagic
 {
+    public static void waysToSum() {
+        // Career cup https://www.careercup.com/question?id=16230693
+        // Ways to sum a set of numbers to 12
+        ArrayList<Integer> a = new ArrayList<>();
+        a.addAll(Arrays.asList(8, 4, 6, 2, 14));
+
+        a.sort((o1, o2) -> o1 - o2);
+        Printer.println("Sorted array: ");
+        a.stream()
+                .forEach(n-> {Printer.print(n + " ");});
+
+        int index = a.size() - 1;
+        Printer.println("\nNumber of ways: " + getNoOfWays(a, index, 12));
+    }
+
+    // ways(a, i, sum) = ways(a - a[i], i-1, sum +- a[i])
+    public static int getNoOfWays(List<Integer> array, int index, int value) {
+        if ((index < 0 || index >= array.size()) && value != 0) {
+            return 0;
+        } else if (value == 0) {
+            return 1;
+        }
+
+        return getNoOfWays(array, index - 1, value)
+                + getNoOfWays(array, index - 1, value - array.get(index));
+    }
+
     // LinkedIn phone screen Q
     // Find a^b
     // 3^1 = 3
