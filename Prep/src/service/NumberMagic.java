@@ -47,19 +47,19 @@ public class NumberMagic
 
             if (direction == GrowthDirection.FORWARD) {
                 if (growthMetric == GrowthMetric.ROW) {
-                    i++;
-                } else {
                     j++;
+                } else {
+                    i++;
                 }
             } else {
                 if (growthMetric == GrowthMetric.ROW) {
-                    i--;
-                } else {
                     j--;
+                } else {
+                    i--;
                 }
             }
-            i = Math.abs(i) % 3;
-            j = Math.abs(j) % 3;
+            i = Math.abs(i) % 4;
+            j = Math.abs(j) % 4;
             k++;
         }
 
@@ -72,10 +72,10 @@ public class NumberMagic
     }
 
     private static GrowthMetric computeGrowthMetric(Map<Integer, Map<Integer, Boolean>> fillMap, int i, int j) {
-        if (fillMapContainsIndices(fillMap, i, j+1)) {
-            return GrowthMetric.ROW;
-        } else {
+        if (fillMapContainsIndices(fillMap, i, j+1) || j+1 > 3) {
             return GrowthMetric.COLUMN;
+        } else {
+            return GrowthMetric.ROW;
         }
     }
 
