@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class TreeOperations {
 
-    public static void prepFindPathsWithSum() {
+    public static void prepExistPathWithSum() {
         // create Tree
         TreeNode a = new TreeNode(1);
         TreeNode b = new TreeNode(2);
@@ -22,43 +22,43 @@ public class TreeOperations {
 
         c.setRoot(true);
 
-        b.setLeft(a);
         c.setLeft(b);
-
-        d.setRight(e);
         c.setRight(d);
+
+        c.getLeft().setLeft(a);
+        c.getRight().setRight(e);
 
         Tree t = new Tree(Arrays.asList(a, b, c, d, e));
 
         // create inorder array
-        findPathsWithSum(t.getRoot(), 7);
+        existsPathWithSum(t.getRoot(), 7);
     }
 
-    public static void findPathsWithSum(TreeNode root, int sum) {
-        List<TreeNode> path = new ArrayList<>();
-        findPathsWithSum(root, sum, 0, path);
+    public static void existsPathWithSum(TreeNode root, int sum) {
+        if (_existsPathWithSum(root, sum)) {
+            Printer.println("Found path with sum");
+        } else {
+            Printer.println("No path with sum");
+        }
     }
 
-    // TODO: Fix this recursion logic, currently broken
-    public static void findPathsWithSum(TreeNode node, int sum, int pathSum, List<TreeNode> path) {
+    private static boolean _existsPathWithSum(TreeNode node, int sum) {
         if (node == null) {
-            return;
+            return sum == 0;
         }
 
-        findPathsWithSum(node.getLeft(), sum, pathSum, path);
-
-        pathSum += node.getData();
-        path.add(node);
-
-        findPathsWithSum(node.getRight(), sum, pathSum, path);
-
-        if (pathSum == sum) {
-            // print path
-            Printer.println("\n Found path");
-            path.stream()
-                    .forEach(n -> {
-                        Printer.print(n.getData() + " ");
-                    });
+        sum -= node.getData();
+        if (sum == 0) {
+            return true;
         }
+
+        boolean ans = false;
+
+        ans = _existsPathWithSum(node.getLeft(), sum);
+        if (!ans) {
+            ans = _existsPathWithSum(node.getRight(), sum);
+        }
+
+        return ans;
     }
 }

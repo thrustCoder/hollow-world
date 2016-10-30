@@ -12,7 +12,11 @@ import java.util.*;
 public class NumberMagic
 {
     // TODO: Fix this, not working
+<<<<<<< HEAD
     // MSFT Tech phone screen problem, fill a grid like snake
+=======
+    // Tech phone screen problem
+>>>>>>> hollow
     public static void snakeFillGrid() {
         int[] a = new int[16];
         for (int i = 0; i < 16; i++) {
