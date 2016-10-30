@@ -1,16 +1,129 @@
 package service;
 
+import model.GrowthDirection;
+import model.GrowthMetric;
 import util.Printer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by rpsin on 10/12/2016.
  */
 public class NumberMagic
 {
+    // TODO: Fix this, not working
+    // MSFT Tech phone screen problem, fill a grid like snake
+    public static void snakeFillGrid() {
+        int[] a = new int[16];
+        for (int i = 0; i < 16; i++) {
+            a[i] = i;
+            Printer.print(" " + a[i]);
+        }
+        int[][] matrix = new int[4][4];
+
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        int computeCount = 1;
+        GrowthMetric growthMetric = GrowthMetric.ROW;
+        GrowthDirection direction = GrowthDirection.FORWARD;
+
+        Map<Integer, Map<Integer, Boolean>> filledIndexMap = new HashMap<>();
+        while(k < 16) {
+            if (!fillMapContainsIndices(filledIndexMap, i, j)) {
+                matrix[i][j] = a[k];
+                addToFilledMap(filledIndexMap, i, j);
+            } else {
+                growthMetric = computeGrowthMetric(filledIndexMap, i, j);
+                if (computeCount % 2 == 0) {
+                    if (direction == GrowthDirection.FORWARD) {
+                        direction = GrowthDirection.BACKWARD;
+                    } else {
+                        direction = GrowthDirection.FORWARD;
+                    }
+                }
+                computeCount++;
+            }
+
+            if (direction == GrowthDirection.FORWARD) {
+                if (growthMetric == GrowthMetric.ROW) {
+                    i++;
+                } else {
+                    j++;
+                }
+            } else {
+                if (growthMetric == GrowthMetric.ROW) {
+                    i--;
+                } else {
+                    j--;
+                }
+            }
+            i = Math.abs(i) % 3;
+            j = Math.abs(j) % 3;
+            k++;
+        }
+
+        for (i = 0; i < 4; i++) {
+            Printer.println("");
+            for (j = 0; j < 4; j++) {
+                Printer.print(" " + matrix[i][j]);
+            }
+        }
+    }
+
+    private static GrowthMetric computeGrowthMetric(Map<Integer, Map<Integer, Boolean>> fillMap, int i, int j) {
+        if (fillMapContainsIndices(fillMap, i, j+1)) {
+            return GrowthMetric.ROW;
+        } else {
+            return GrowthMetric.COLUMN;
+        }
+    }
+
+    private static boolean fillMapContainsIndices(Map<Integer, Map<Integer, Boolean>> fillMap, int i, int j) {
+        return (fillMap.containsKey(i) && fillMap.get(i).containsKey(j));
+    }
+
+    private static void addToFilledMap(Map<Integer, Map<Integer, Boolean>> fillMap, int i, int j) {
+        if (fillMap.containsKey(i)) {
+            Map<Integer, Boolean> map = fillMap.get(i);
+            map.put(j, true);
+        } else {
+            Map<Integer, Boolean> map = new HashMap<>();
+            map.put(j, true);
+
+            fillMap.put(i, map);
+        }
+    }
+
+    // MSFT interview Q on-site
+    public static void clock180DegreeCount() {
+        int hourHandPos = 0;
+        int secondHandPos = 0;
+        int count = 0;
+
+        while (hourHandPos < 60) {
+            if (is180Degree(hourHandPos, secondHandPos)) {
+                Printer.println("Hour: " + hourHandPos/5 + " Second: " + secondHandPos);
+                count++;
+            }
+
+            if (secondHandPos == 60) {
+                secondHandPos = 0;
+            } else {
+                secondHandPos++;
+            }
+            if (secondHandPos % 12 == 0) {
+                hourHandPos++;
+            }
+        }
+
+        Printer.println("Number of time 180 degree occurs in a 24 hour period: " + count * 2);
+    }
+
+    private static boolean is180Degree(int hourHandPos, int secondHandPos) {
+        return Math.abs(hourHandPos - secondHandPos) == 30;
+    }
+
     public static void waysToSum() {
         // Career cup https://www.careercup.com/question?id=16230693
         // Ways to sum a set of numbers to 12
