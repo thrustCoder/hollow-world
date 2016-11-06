@@ -13,7 +13,6 @@ public class NumberMagic
 {
     // TODO: Fix this, not working
     // MSFT Tech phone screen problem, fill a grid like snake
-    // Tech phone screen problem
     public static void snakeFillGrid() {
         int[] a = new int[16];
         for (int i = 0; i < 16; i++) {
