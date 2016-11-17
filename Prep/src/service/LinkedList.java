@@ -1,6 +1,8 @@
 package service;
 
 import model.LinkedListNode;
+import model.PartialLLSum;
+import util.Printer;
 
 import java.util.*;
 
@@ -8,6 +10,158 @@ import java.util.*;
  * Created by rpsin on 10/8/2016.
  */
 public class LinkedList {
+
+    // Add two LL
+    // page 191 in Lackmann "follow up" part
+    public static void prepAdditionOfLLProper() {
+        LinkedListNode l11 = new LinkedListNode(1);
+        LinkedListNode l12 = new LinkedListNode(2);
+        LinkedListNode l13 = new LinkedListNode(3);
+        LinkedListNode l14 = new LinkedListNode(4);
+
+        LinkedListNode l21 = new LinkedListNode(7);
+        LinkedListNode l22 = new LinkedListNode(6);
+        LinkedListNode l23 = new LinkedListNode(7);
+
+        l11.setNext(l12).setNext(l13).setNext(l14);
+        l21.setNext(l22).setNext(l23);
+
+        Printer.println("List 1");
+        print(l12);
+
+        Printer.println("List 2");
+        print(l21);
+
+        LinkedListNode l31 = addListsProper(l11, l21);
+        Printer.println("Added list");
+        print(l31);
+    }
+
+    public static LinkedListNode addListsProper(LinkedListNode l11, LinkedListNode l21) {
+        if (length(l11) < length(l21)) {
+            l11 = padFront(l11, length(l21));
+        } else if (length(l21) < length(l11)) {
+            l21 = padFront(l21, length(l11));
+        }
+
+        Printer.println("Padded List 1");
+        print(l11);
+
+        Printer.println("Padded List 2");
+        print(l21);
+
+        PartialLLSum l31 = addListsProperR(l11, l21);
+        if (l31.getCarry() == 1) {
+            LinkedListNode l41 = new LinkedListNode(1);
+            l41.setNext(l31.getPartialSumNode());
+            return l41;
+        }
+
+        return l31.getPartialSumNode();
+    }
+
+    private static PartialLLSum addListsProperR(LinkedListNode l11, LinkedListNode l21) {
+        if (l11 == null && l21 == null) {
+            PartialLLSum pSum3 = new PartialLLSum();
+            pSum3.setCarry(0);
+            return pSum3;
+        }
+
+        PartialLLSum partialSum = addListsProperR((l11 != null ? l11.next() : null),
+                (l21 != null ? l21.next() : null));
+
+        int value = l11.data() + l21.data() + partialSum.getCarry();
+
+        LinkedListNode node = new LinkedListNode(value % 10);
+        node.setNext(partialSum.getPartialSumNode());
+
+        PartialLLSum pSum2 = new PartialLLSum();
+        pSum2.setPartialSumNode(node);
+        pSum2.setCarry(value/10);
+
+        return pSum2;
+    }
+
+    private static LinkedListNode padFront(LinkedListNode head, int length) {
+        LinkedListNode newHead = new LinkedListNode(0);
+        LinkedListNode newCurrent = newHead;
+
+        int numNewNodes = length - length(head);
+        for (int i = 1; i < numNewNodes; i++) {
+            newCurrent.setNext(new LinkedListNode(0));
+            newCurrent = newCurrent.next();
+        }
+
+        newCurrent.setNext(head);
+        return newHead;
+    }
+
+    private static int length(LinkedListNode head) {
+        int length = 0;
+        LinkedListNode current = head;
+
+        while (current != null) {
+            length += 1;
+            current = current.next();
+        }
+
+        return length;
+    }
+
+    // Add two LL in reverse
+    // page 190 in Lackmann book
+    public static void prepAdditionOfLL() {
+        LinkedListNode l11 = new LinkedListNode(7);
+        LinkedListNode l12 = new LinkedListNode(1);
+        LinkedListNode l13 = new LinkedListNode(7);
+
+        LinkedListNode l21 = new LinkedListNode(5);
+        LinkedListNode l22 = new LinkedListNode(9);
+        LinkedListNode l23 = new LinkedListNode(2);
+
+        l11.setNext(l12).setNext(l13);
+        l21.setNext(l22).setNext(l23);
+
+        Printer.println("List 1");
+        print(l11);
+
+        Printer.println("List 2");
+        print(l21);
+
+        LinkedListNode l31 = addListsRecursive(l11, l21, 0);
+        Printer.println("Added list");
+        print(l31);
+    }
+
+    public static LinkedListNode addListsRecursive(LinkedListNode l11, LinkedListNode l21, int carry) {
+        if (l11 == null && l21 == null && carry == 0) {
+            return null;
+        }
+
+        int value = 0;
+        if (l11 != null) {
+            value += l11.data();
+        }
+        if (l21 != null) {
+            value += l21.data();
+        }
+        value += carry;
+
+        LinkedListNode node = new LinkedListNode(value % 10);
+        carry = value/10;
+
+        if (l11 != null && l21 != null) {
+            node.setNext(addListsRecursive(l11.next(), l21.next(), carry));
+        } else if (l11 == null && l21 == null) {
+            node.setNext(addListsRecursive(null, null, carry));
+        } else if (l11 == null) {
+            node.setNext(addListsRecursive(null, l21.next(), carry));
+        } else {
+            node.setNext(addListsRecursive(l11.next(), null, carry));
+        }
+
+        return node;
+    }
 
     public static void copyListWithRandomPointer() {
         // Q MSFT question to copy a linked list which can contain circles, and each node has an additional random pointer to some other node

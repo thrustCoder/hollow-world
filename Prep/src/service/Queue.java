@@ -8,9 +8,9 @@ import java.util.LinkedList;
 /**
  * Created by rpsin on 11/16/2016.
  */
-public class Queue_ {
+public class Queue {
     public static void simpleOps() {
-        Queue<Integer> q = new LinkedList<>();
+        java.util.Queue<Integer> q = new LinkedList<>();
         q.addAll(Arrays.asList(1, 2, 3, 4, 5));
         printQueue(q);
 
@@ -26,7 +26,7 @@ public class Queue_ {
         printQueue(q);
     }
 
-    public static void printQueue(Queue q) {
+    public static void printQueue(java.util.Queue q) {
         Printer.println("-- Queue --");
         q.stream().forEach(element -> {
             Printer.print(" " + element);});

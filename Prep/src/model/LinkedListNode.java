@@ -12,8 +12,9 @@ public class LinkedListNode {
     public void setData(int d) {
         data = d;
     }
-    public void setNext(LinkedListNode n) {
+    public LinkedListNode setNext(LinkedListNode n) {
         next = n;
+        return next;
     }
     public void setOther(LinkedListNode o) {
         other = o;
