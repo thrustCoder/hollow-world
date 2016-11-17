@@ -6,6 +6,32 @@ import util.Printer;
  * Created by rpsin on 11/16/2016.
  */
 public class StringManipulation {
+    // MSFT OTS
+    // Longest common substring
+    public static void lcs() {
+        String str1 = "abcbdab";
+        String str2 = "bdbcbdda";
+
+        int start = 0;
+        int max = 0;
+        for (int i = 0; i < str1.length(); i++) {
+            for (int j = 0; j < str2.length(); j++) {
+                int x = 0;
+                while (str1.charAt(i+x) == str2.charAt(j+x)) {
+                    x++;
+                    if ((i+x) >= str1.length() || (j+x) >= str2.length())
+                        break;
+                }
+                if (x > max) {
+                    start = i;
+                    max = x;
+                }
+            }
+        }
+
+        Printer.println(str1.substring(start, (start + max)));
+    }
+
     // Fill " " with "%20"
     // Page 175 CCI Book
     public static void replaceSpaces() {
