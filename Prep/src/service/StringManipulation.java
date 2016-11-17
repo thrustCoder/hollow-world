@@ -1,0 +1,40 @@
+package service;
+
+import util.Printer;
+
+/**
+ * Created by rpsin on 11/16/2016.
+ */
+public class StringManipulation {
+    // Fill " " with "%20"
+    // Page 175 CCI Book
+    public static void replaceSpaces() {
+        String str1 = " ab cd ";
+        char[] str = str1.toCharArray();
+
+        int countSpaces = 0;
+        for (int i = 0; i < str.length; i++) {
+            if (str[i] == ' ') {
+                countSpaces++;
+            }
+        }
+
+        int newLength = str.length + countSpaces*2;
+        char[] newStr = new char[newLength];
+
+        int newIndex = newLength - 1;
+
+        for (int i = str.length - 1; i >= 0; i--) {
+            if (str[i] == ' ') {
+                newStr[newIndex] = '0';
+                newStr[newIndex-1] = '2';
+                newStr[newIndex-2] = '%';
+                newIndex -= 3;
+            } else {
+                newStr[newIndex--] = str[i];
+            }
+        }
+
+        Printer.println(new String(newStr));
+    }
+}
