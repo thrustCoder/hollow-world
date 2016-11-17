@@ -8,7 +8,7 @@ import java.util.LinkedList;
 /**
  * Created by rpsin on 11/16/2016.
  */
-public class Queue_ {
+public class QueueOperations {
     public static void simpleOps() {
         Queue<Integer> q = new LinkedList<>();
         q.addAll(Arrays.asList(1, 2, 3, 4, 5));
