@@ -11,6 +11,38 @@ import java.util.*;
  */
 public class NumberMagic
 {
+    // Shuffle a list of numbers, MSFT phone screen
+    public static void prepShuffle() {
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            list.add(i);
+        }
+
+        Printer.println("Original list");
+        list.stream().forEach(n -> {
+            Printer.print(" " + n);
+        });
+
+        Printer.println("Shuffled list");
+        list = shuffle(list);
+        list.stream().forEach(n -> {
+            Printer.print(" " + n);
+        });
+    }
+
+    public static List<Integer> shuffle(List<Integer> list) {
+        for (int i = 0; i < list.size(); i++) {
+            int random = (int)(Math.random() * (list.size() - 1));
+
+            int n = list.get(i);
+            list.remove(i);
+            list.add(random, n);
+        }
+
+        return list;
+    }
+
     // TODO: Fix this, not working
     // MSFT Tech phone screen problem, fill a grid like snake
     public static void snakeFillGrid() {
