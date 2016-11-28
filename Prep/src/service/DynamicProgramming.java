@@ -2,10 +2,54 @@ package service;
 
 import util.Printer;
 
+import java.util.*;
+
 /**
  * Created by rpsin on 11/17/2016.
  */
 public class DynamicProgramming {
+    // Print longest *composed* word from the list
+    // C(S) = S1 + C(S2) where S1 is substring 0-i; i ranging from 0 to length
+    public static void prepLongestComposedStr() {
+        String[] strList = {"test", "print", "testprint", "xeanophobia"};
+
+        Printer.println("Longest composed string: " + longestComposedStr(strList));
+    }
+
+    public static String longestComposedStr(String[] strList) {
+        List<String> list = Arrays.asList(strList);
+        String longestStr = "";
+
+        for (int i = 0; i < list.size(); i++) {
+            String str = list.get(i);
+            if (isComposedStr(str, list, true) && (str.length() > longestStr.length())) {
+                longestStr = str;
+            }
+        }
+
+        return longestStr;
+    }
+
+    // TODO: fix this logic
+    private static boolean isComposedStr(String str, List list, boolean isOriginalStr) {
+        if (str == null || str.equals("")) {
+            return true;
+        }
+
+        for (int i = 1; i <= str.length(); i++) {
+            String s1 = str.substring(0, i);
+            String s2 = str.substring(i);
+
+            if (list.contains(s1) && isComposedStr(s2, list, false)) {
+                if (!isOriginalStr) {
+                    return true;
+                };
+            }
+        }
+
+        return false;
+    }
+
     // Longest common subsequence
     // Page 395 of DS made easy book
     // LCS(i, j): 0 if i=m or j=n
