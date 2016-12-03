@@ -23,6 +23,7 @@ public class QueueOperations {
         printQueue(q);
 
         Printer.println("\n Insert ");
+        q.add(6);
         printQueue(q);
     }
 

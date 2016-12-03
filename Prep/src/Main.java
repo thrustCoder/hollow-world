@@ -10,7 +10,6 @@ public class Main
         System.out.println("Hollow world can light up!");
 
         // Here is your entry point to the world
-        HeapOperations.prepTestMinHeap();
-        HeapOperations.prepTestMaxHeap();
+        QueueOperations.simpleOps();
     }
 }
