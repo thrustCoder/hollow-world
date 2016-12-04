@@ -36,17 +36,16 @@ public class DFS {
         g.getNodes().parallelStream()
                 .forEach(node -> {node.setState(VisitedState.UNVISITED);});
 
-        // you want to visit only if unvisited
-        for (GraphNode node: g.getNodes()) {
-            if (node.getState() == VisitedState.UNVISITED) {
-                return DFSVisit(node, end);
-            }
-        }
-
-        return false;
+        return DFSVisit(start, end);
     }
 
     private static boolean DFSVisit(GraphNode node, GraphNode end) {
+        // base case of recursion
+        if (node == null) {
+            return false;
+        }
+
+        // set VISITING state
         node.setState(VisitedState.VISITING);
 
         // processing

@@ -11,6 +11,11 @@ import java.util.*;
  */
 public class NumberMagic
 {
+    // Quicky
+    public static void prepModulo() {
+        Printer.print("" + (5%100));
+    }
+
     // Shuffle a list of numbers, MSFT phone screen
     public static void prepShuffle() {
         List<Integer> list = new ArrayList<>();

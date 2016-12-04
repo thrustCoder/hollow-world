@@ -51,24 +51,22 @@ public class BFS {
         while (!q.isEmpty()) {
             GraphNode node = q.removeFirst();
 
-            if (node != null) {
-                // for each node in adjacent nodes
-                for (GraphNode adjNode: node.getAdjacentNodes()) {
+            // for each node in adjacent nodes
+            for (GraphNode adjNode: node.getAdjacentNodes()) {
 
-                    // you want to visit only if unvisited
-                    if (adjNode.getState() == VisitedState.UNVISITED) {
-                        adjNode.setState(VisitedState.VISITING);
+                // you want to visit only if unvisited
+                if (adjNode.getState() == VisitedState.UNVISITED) {
+                    adjNode.setState(VisitedState.VISITING);
 
-                        // processing
-                        if (adjNode == end) {
-                            return true;
-                        }
-
-                        q.add(adjNode);
+                    // processing
+                    if (adjNode == end) {
+                        return true;
                     }
+
+                    q.add(adjNode);
                 }
-                node.setState(VisitedState.VISITED);
             }
+            node.setState(VisitedState.VISITED);
         }
 
         return false;
