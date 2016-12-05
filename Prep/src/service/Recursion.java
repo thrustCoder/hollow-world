@@ -16,7 +16,7 @@ public class Recursion {
     // 3^4 = (3^2) * (3^2)
     // 3^5 = (3^2) * (3^2) * 3
     // 3^(-4) = 1/(3^4)
-    public static void printPow() {
+    public static void prepPow() {
         Printer.println(String.valueOf(powWithRecursion(3, 2)));
         Printer.println(String.valueOf(powWithRecursion(3, 3)));
         Printer.println(String.valueOf(powWithRecursion(3, 0)));
@@ -33,7 +33,7 @@ public class Recursion {
         if (n >= 0) {
             return pow;
         } else {
-            if (pow == 0) {
+            if (a == 0) {
                 throw new IllegalArgumentException("Denominator is 0");
             }
             return 1/pow;

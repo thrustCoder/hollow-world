@@ -22,16 +22,13 @@ public class TreeOperations {
 
         c.setRoot(true);
 
-        c.setLeft(b);
-        c.setRight(d);
-
-        c.getLeft().setLeft(a);
-        c.getRight().setRight(e);
+        c.setLeft(b).setLeft(a);
+        c.setRight(d).setRight(e);
 
         Tree t = new Tree(Arrays.asList(a, b, c, d, e));
 
         // create inorder array
-        existsPathWithSum(t.getRoot(), 7);
+        existsPathWithSum(t.getRoot(), 5);
     }
 
     public static void existsPathWithSum(TreeNode root, int sum) {
@@ -42,23 +39,17 @@ public class TreeOperations {
         }
     }
 
+    // pathWithSum(node, sum) = pathWithSum(node.left, sum - node.data) || pathWithSum(node.right, sum - node.data)
     private static boolean _existsPathWithSum(TreeNode node, int sum) {
-        if (node == null) {
-            return sum == 0;
-        }
-
-        sum -= node.getData();
         if (sum == 0) {
             return true;
         }
 
-        boolean ans = false;
-
-        ans = _existsPathWithSum(node.getLeft(), sum);
-        if (!ans) {
-            ans = _existsPathWithSum(node.getRight(), sum);
+        if (node == null) {
+            return false;
         }
 
-        return ans;
+        return (_existsPathWithSum(node.getLeft(), sum - node.getData())
+                || _existsPathWithSum(node.getRight(), sum - node.getData()));
     }
 }

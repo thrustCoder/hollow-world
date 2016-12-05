@@ -49,6 +49,10 @@ public class NumberMagic
     }
 
     // TODO: Fix this, not working
+    // It should be fixed with a different approach. Assume that the
+    // direction is always going to follow a pattern: forward, down,
+    // backward, up. And keep filling cells unless you reach filled cell
+    // or the edge of matrix
     // MSFT Tech phone screen problem, fill a grid like snake
     public static void snakeFillGrid() {
         int[] a = new int[16];
@@ -176,7 +180,7 @@ public class NumberMagic
         Printer.println("\nNumber of ways: " + getNoOfWays(a, index, 12));
     }
 
-    // ways(a, i, sum) = ways(a - a[i], i-1, sum +- a[i])
+    // ways(a, i, sum) = ways(a - a[i], i-1, sum - a[i]) + ways(a, i-1, sum)
     public static int getNoOfWays(List<Integer> array, int index, int value) {
         if ((index < 0 || index >= array.size()) && value != 0) {
             return 0;

@@ -21,11 +21,8 @@ public class TreeTraversal {
 
         c.setRoot(true);
 
-        b.setLeft(a);
-        c.setLeft(b);
-
-        d.setRight(e);
-        c.setRight(d);
+        c.setLeft(b).setLeft(a);
+        c.setRight(d).setRight(e);
 
         Tree t = new Tree(Arrays.asList(a, b, c, d, e));
 

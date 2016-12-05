@@ -11,7 +11,7 @@ public class DynamicProgramming {
     // Print longest *composed* word from the list
     // C(S) = S1 + C(S2) where S1 is substring 0-i; i ranging from 0 to length
     public static void prepLongestComposedStr() {
-        String[] strList = {"test", "print", "testprint", "xeanophobia"};
+        String[] strList = {"test", "prints", "testprints", "xeanophobia"};
 
         Printer.println("Longest composed string: " + longestComposedStr(strList));
     }
@@ -22,7 +22,16 @@ public class DynamicProgramming {
 
         for (int i = 0; i < list.size(); i++) {
             String str = list.get(i);
-            if (isComposedStr(str, list, true) && (str.length() > longestStr.length())) {
+
+            // clone the list except the 'str' element
+            List<String> cloneList = new ArrayList<>(list.size());
+            list.parallelStream().forEach(item -> {
+                if (!item.equals(str)) {
+                    cloneList.add(item);
+                }
+            });
+
+            if (isComposedStr(str, cloneList) && (str.length() > longestStr.length())) {
                 longestStr = str;
             }
         }
@@ -30,8 +39,7 @@ public class DynamicProgramming {
         return longestStr;
     }
 
-    // TODO: fix this logic
-    private static boolean isComposedStr(String str, List list, boolean isOriginalStr) {
+    private static boolean isComposedStr(String str, List list) {
         if (str == null || str.equals("")) {
             return true;
         }
@@ -40,10 +48,8 @@ public class DynamicProgramming {
             String s1 = str.substring(0, i);
             String s2 = str.substring(i);
 
-            if (list.contains(s1) && isComposedStr(s2, list, false)) {
-                if (!isOriginalStr) {
-                    return true;
-                };
+            if (list.contains(s1) && isComposedStr(s2, list)) {
+                return true;
             }
         }
 
@@ -52,6 +58,7 @@ public class DynamicProgramming {
 
     // Longest common subsequence
     // Page 395 of DS made easy book
+    // LCS(i, j) LCS determined until X[i] and Y[j]
     // LCS(i, j): 0 if i=m or j=n
     // LCS(i, j): Max(LCS(i+1, j), LCS(i, j+1)) if X[i] != Y[j]
     // LCS(i, j): 1 + LCS(i+1, j+1) if X[i] = Y[j]
@@ -66,10 +73,12 @@ public class DynamicProgramming {
     public static String lcs(char[] X, char[] Y) {
         int[][] lcsTable = new int[X.length+1][Y.length+1];
 
+        // initialize columns
         for (int i = 0; i <= X.length; i++) {
             lcsTable[i][0] = 0;
         }
 
+        // initialize rows
         for (int j=0; j <= Y.length; j++) {
             lcsTable[0][j] = 0;
         }

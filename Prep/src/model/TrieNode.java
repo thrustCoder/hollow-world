@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by rpsin on 11/27/2016.
  */
-public class TrieNode <T extends Object> {
+public class TrieNode <T> {
     private T value;
     private Map<T, TrieNode> children = new HashMap<>();
 

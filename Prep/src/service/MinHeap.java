@@ -16,10 +16,6 @@ public class MinHeap<T> extends PriorityQueue<T> {
         });
     }
 
-    public MinHeap(int capacity, Comparator<T> c) {
-        super(capacity, c);
-    }
-
     // Iterator of priority queue is not guaranteed to traverse in any particular order
     // So the print method is useless
     public void printMinHeap() {}

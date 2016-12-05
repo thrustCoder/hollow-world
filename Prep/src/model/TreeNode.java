@@ -36,12 +36,14 @@ public class TreeNode {
         this.data = data;
     }
 
-    public void setLeft(TreeNode left) {
+    public TreeNode setLeft(TreeNode left) {
         this.left = left;
+        return this.left;
     }
 
-    public void setRight(TreeNode right) {
+    public TreeNode setRight(TreeNode right) {
         this.right = right;
+        return this.right;
     }
 
     public void setRoot(boolean root) {

@@ -17,10 +17,8 @@ public class StringManipulation {
         for (int i = 0; i < str1.length(); i++) {
             for (int j = 0; j < str2.length(); j++) {
                 int x = 0;
-                while (str1.charAt(i+x) == str2.charAt(j+x)) {
+                while ((i+x < str1.length()) && (j+x < str2.length()) && (str1.charAt(i+x) == str2.charAt(j+x))) {
                     x++;
-                    if ((i+x) >= str1.length() || (j+x) >= str2.length())
-                        break;
                 }
                 if (x > max) {
                     start = i;
