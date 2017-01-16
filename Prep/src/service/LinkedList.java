@@ -197,7 +197,6 @@ public class LinkedList {
         LinkedListNode current2 = new LinkedListNode(0);
 
         ConcurrentMap<LinkedListNode, LinkedListNode> nodeMap = new ConcurrentHashMap<>();
-//        Map<LinkedListNode, LinkedListNode> nodeMap = new HashMap<>();
         Set<LinkedListNode> visitedSet = new HashSet<>();
 
         while (current != null && !visitedSet.contains(current)) {
