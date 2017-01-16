@@ -5,6 +5,7 @@ import model.PartialLLSum;
 import util.Printer;
 
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Created by rpsin on 10/8/2016.
@@ -195,7 +196,8 @@ public class LinkedList {
         LinkedListNode head2 = new LinkedListNode(0);
         LinkedListNode current2 = new LinkedListNode(0);
 
-        Map<LinkedListNode, LinkedListNode> nodeMap = new HashMap<>();
+        ConcurrentMap<LinkedListNode, LinkedListNode> nodeMap = new ConcurrentHashMap<>();
+//        Map<LinkedListNode, LinkedListNode> nodeMap = new HashMap<>();
         Set<LinkedListNode> visitedSet = new HashSet<>();
 
         while (current != null && !visitedSet.contains(current)) {
@@ -218,12 +220,18 @@ public class LinkedList {
         current = head;
         visitedSet = new HashSet<>();
         current2 = head2;
+        LinkedListNode currentOther = current.other();
 
-        while (current != null && !visitedSet.contains(current)) {
-            current2.setOther(nodeMap.get(current.other()));
+        while (current != null
+            && !visitedSet.contains(current)
+            && currentOther != null
+            && nodeMap.containsKey(currentOther)) {
+
+            current2.setOther(nodeMap.get(currentOther));
 
             visitedSet.add(current);
             current = current.next();
+            currentOther = current.other();
             current2 = current2.next();
         }
 
