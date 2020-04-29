@@ -6,7 +6,7 @@ import util.Printer;
 import java.util.HashSet;
 
 import java.util.*;
-import java.util.LinkedList; BFSHash
+import java.util.LinkedList;
 
 public class BFSHash {
     public static void prepareBFS() {
