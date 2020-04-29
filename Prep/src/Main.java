@@ -1,4 +1,5 @@
 import service.*;
+import service.inheritance.TestInheritance;
 
 /**
  * Created by rpsin on 2/27/2016.
@@ -10,6 +11,6 @@ public class Main
         System.out.println("Hollow world can light up!");
 
         // Here is your entry point to the world.
-        RandomExperiment.testZonedDateTime();
+        TestInheritance.testHonk();
     }
 }
