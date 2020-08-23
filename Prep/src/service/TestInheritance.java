@@ -1,4 +1,7 @@
-package service.inheritance;
+package service;
+
+import model.inheritance.Car;
+import model.inheritance.Vehicle;
 
 public class TestInheritance {
 

@@ -1,4 +1,4 @@
-package service.inheritance;
+package model.inheritance;
 
 public class Car extends Vehicle {
     @Override
