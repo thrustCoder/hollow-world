@@ -19,6 +19,11 @@ public class DFS {
         GraphNode d = new GraphNode(4);
         GraphNode e = new GraphNode(5);
 
+        /*
+            a(1) ⃗ b(2)
+            ↓
+            c(3) ⃗ d(4) ⃗ e(5)
+         */
         a.setAdjacentNodes(Arrays.asList(b, c));
         c.setAdjacentNodes(Arrays.asList(d));
         d.setAdjacentNodes(Arrays.asList(e));
@@ -36,6 +41,7 @@ public class DFS {
         g.getNodes().parallelStream()
                 .forEach(node -> {node.setState(VisitedState.UNVISITED);});
 
+        Printer.print(String.format("DFS traversal of Graph starting from node %d = ", start.data()));
         return DFSVisit(start, end);
     }
 
@@ -48,7 +54,12 @@ public class DFS {
         // set VISITING state
         node.setState(VisitedState.VISITING);
 
+        // Prints 1 2 3 4 5
+        Printer.print(node.data() + " ");
+
         // processing
+        // this block (and an end node) is only required for the purposes of this problem (finding a path).
+        // not required for a normal DFS traversal, which only requires a start node.
         if (node == end) {
             return true;
         }
