@@ -1,11 +1,12 @@
 package service;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import model.GraphNode;
 import model.VisitedState;
 import util.Printer;
-
-import java.util.*;
-import java.util.LinkedList;
 
 /**
  * Created by rpsin on 10/16/2016.
@@ -46,7 +47,7 @@ public class BFS {
 
         // initialize queue
         // Queue is an abstract class, so we use LinkedList to mimic Queue
-        java.util.LinkedList<GraphNode> q = new LinkedList<>();
+        Queue<GraphNode> q = new LinkedList<>();
 
         // start state
         start.setState(VisitedState.VISITING);
@@ -54,7 +55,7 @@ public class BFS {
 
         // until the queue is empty
         while (!q.isEmpty()) {
-            GraphNode node = q.removeFirst();
+            GraphNode node = q.poll();
             Printer.print(node.data() + " ");
 
             // for each node in adjacent nodes
