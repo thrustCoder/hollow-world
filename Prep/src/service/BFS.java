@@ -46,7 +46,7 @@ public class BFS {
                 .forEach(node -> {node.setState(VisitedState.UNVISITED);});
 
         // initialize queue
-        // Queue is an abstract class, so we use LinkedList to mimic Queue
+        // Queue is an interface, so we use LinkedList to implement Queue
         Queue<GraphNode> q = new LinkedList<>();
 
         // start state
