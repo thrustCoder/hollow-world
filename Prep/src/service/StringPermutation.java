@@ -29,14 +29,14 @@ public class StringPermutation {
      * @param str
      * @return
      */
-    private static Set<String> getPermutations(String str) {
+    private static Set<String> getPermutations(final String str) {
 
         // validate str
         if (str == null) {
             return null;
         }
 
-        Set<String> permutations = new HashSet<>();
+        final Set<String> permutations = new HashSet<>();
 
         // base case
         if (str.isEmpty()) {
@@ -49,7 +49,7 @@ public class StringPermutation {
             final String sansFirstChar = str.substring(1);
             final Set<String> permuteStrings = getPermutations(sansFirstChar);
 
-            for (String permuteString : permuteStrings) {
+            for (final String permuteString : permuteStrings) {
 
                 // insert firstChar at every ith position of permuteString
                 for (int i = 0; i <= permuteString.length(); i++) {
@@ -63,7 +63,7 @@ public class StringPermutation {
     }
 
     private static String insertCharAt(final String str, final int index, final char c) {
-        StringBuilder insertedString = new StringBuilder();
+        final StringBuilder insertedString = new StringBuilder();
 
         // first half of str
         insertedString.append(str.substring(0, index));
