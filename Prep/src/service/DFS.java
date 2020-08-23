@@ -53,7 +53,6 @@ public class DFS {
 
         // set VISITING state
         node.setState(VisitedState.VISITING);
-
         // Prints 1 2 3 4 5
         Printer.print(node.data() + " ");
 

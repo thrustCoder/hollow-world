@@ -22,6 +22,11 @@ public class BFS {
         GraphNode d = new GraphNode(4);
         GraphNode e = new GraphNode(5);
 
+        /*
+            a(1) ⃗ b(2)
+            ↓
+            c(3) ⃗ d(4) ⃗ e(5)
+         */
         a.setAdjacentNodes(Arrays.asList(b, c));
         c.setAdjacentNodes(Arrays.asList(d));
         d.setAdjacentNodes(Arrays.asList(e));
@@ -50,6 +55,7 @@ public class BFS {
         // until the queue is empty
         while (!q.isEmpty()) {
             GraphNode node = q.removeFirst();
+            Printer.print(node.data() + " ");
 
             // for each node in adjacent nodes
             for (GraphNode adjNode: node.getAdjacentNodes()) {
@@ -59,6 +65,8 @@ public class BFS {
                     adjNode.setState(VisitedState.VISITING);
 
                     // processing
+                    // this block (and an end node) is only required for the purposes of this problem (finding a path).
+                    // not required for a normal BFS traversal, which only requires a start node.
                     if (adjNode == end) {
                         return true;
                     }
