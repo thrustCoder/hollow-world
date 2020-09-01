@@ -60,6 +60,12 @@ public class TreeTraversal {
         array.stream().forEach(data -> Printer.print(data + " "));
     }
 
+    public static void printLevelsOfTree() {
+        final Tree t = prepCreateArray();
+
+        levelsOfTree(t.getRoot());
+    }
+
     /**
      * Fun Fact: Inorder traversal of a BST is sorted.
      * @param node
@@ -83,7 +89,14 @@ public class TreeTraversal {
      * @param node  root of tree.
      * @param array array in level order.
      */
-    private static void levelOrderTraverse(TreeNode node, List<Integer> array) {
+    private static void levelOrderTraverse(final TreeNode node, final List<Integer> array) {
+
+        // validate node
+        if (node == null) {
+            return;
+        }
+
+        // level order bfs queue
         final Queue<TreeNode> q = new LinkedList<>();
 
         // insert root
@@ -105,5 +118,57 @@ public class TreeTraversal {
                 q.add(rightChild);
             }
         }
+    }
+
+    /**
+     * To print levels of a tree,
+     * we use Level order traversal with a slight modification to identify the node which is
+     * the last in the current level.
+     */
+    private static void levelsOfTree(final TreeNode node) {
+
+        // validate node
+        if (node == null) {
+            return;
+        }
+
+        // level order bfs queue
+        final Queue<TreeNode> q = new LinkedList<>();
+
+        // insert root
+        q.add(node);
+
+        int countLevels = 0;
+
+        while (!q.isEmpty()) {
+
+            final int initialQSize = q.size();
+
+            for (int i = 0; i < initialQSize; i ++) {
+
+                final TreeNode poppedNode = q.poll();
+                Printer.print(poppedNode.getData() + " ");
+
+                // check if the popped node is the last in the current level
+                if (i == initialQSize - 1) {
+                    countLevels ++;
+                    Printer.println();
+                }
+
+                // insert left child if it is non null
+                TreeNode leftChild = poppedNode.getLeft();
+                if (leftChild != null) {
+                    q.add(leftChild);
+                }
+
+                // insert right child if it is non null
+                TreeNode rightChild = poppedNode.getRight();
+                if (rightChild != null) {
+                    q.add(rightChild);
+                }
+            }
+        }
+
+        Printer.print("No. of levels = " + countLevels);
     }
 }
