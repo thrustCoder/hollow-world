@@ -304,7 +304,7 @@ public class LinkedList {
         return l31;
     }
 
-    public static void print(LinkedListNode head) {
+    private static void print(LinkedListNode head) {
         LinkedListNode current = head;
         boolean isFirst = true;
 
@@ -324,7 +324,7 @@ public class LinkedList {
         System.out.print("\n\n");
     }
 
-    public static void printWithOther(LinkedListNode head) {
+    private static void printWithOther(LinkedListNode head) {
         LinkedListNode current = head;
         boolean isFirst = true;
 
@@ -344,7 +344,10 @@ public class LinkedList {
         System.out.print("\n\n");
     }
 
-    public static LinkedListNode reverse(LinkedListNode head) {
+    /**
+     * Uses stacks to reverse a linked list in place.
+     */
+    private static LinkedListNode reverseUsingStack(LinkedListNode head) {
         Stack<LinkedListNode> stack = new Stack<>();
         LinkedListNode current = head;
 
@@ -366,6 +369,25 @@ public class LinkedList {
         return newHead;
     }
 
+    /**
+     * Uses three pointers - prevNode, currentNode and nextNode to reverse a linked list in place.
+     */
+    private static LinkedListNode reverseIterative(final LinkedListNode head) {
+        LinkedListNode currentNode = head;
+        LinkedListNode prevNode = null;
+
+        while (currentNode != null) {
+            LinkedListNode nextNode = currentNode.next();
+
+            // similar to swapping
+            currentNode.setNext(prevNode);
+            prevNode = currentNode;
+            currentNode = nextNode;
+        }
+        LinkedListNode newHead = prevNode;
+        return newHead;
+    }
+
     public static void reverseLinkedList() {
         // create list
         LinkedListNode l11 = new LinkedListNode(1);
@@ -378,8 +400,8 @@ public class LinkedList {
         System.out.println("--List--");
         LinkedList.print(l11);
 
-        // merge lists
-        LinkedListNode l21 = LinkedList.reverse(l11);
+        // reverse list
+        LinkedListNode l21 = LinkedList.reverseUsingStack(l11);
         System.out.println("--Reversed List--");
         LinkedList.print(l21);
     }
