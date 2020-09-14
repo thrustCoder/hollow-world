@@ -61,17 +61,4 @@ public class StringManipulation {
 
         Printer.println(new String(newStr));
     }
-
-    public static void testSubstringEdgeCase() {
-        String s = "a";
-
-        // prints "a"
-        Printer.println(s.substring(0));
-
-        // prints ""
-        Printer.println(s.substring(1));
-
-        // StringIndexOutOfBoundsException
-        Printer.println(s.substring(2));
-    }
 }

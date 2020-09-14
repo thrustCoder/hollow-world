@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * Created by rpsin on 10/16/2016.
@@ -20,18 +21,27 @@ public class TreeTraversal {
         TreeNode c = new TreeNode(3);
         TreeNode d = new TreeNode(4);
         TreeNode e = new TreeNode(5);
+        TreeNode f = new TreeNode(6);
+        TreeNode g = new TreeNode(7);
 
         /*
                             c(3)
                           /     \
                       b(2)      d(4)
-                        /           \
-                      a(1)          e(5)
+                        /       /   \
+                      a(1)   f(6)   e(5)
+                                      \
+                                     g(7)
         */
         c.setRoot(true);
 
         c.setLeft(b).setLeft(a);
-        c.setRight(d).setRight(e);
+
+        TreeNode dNode = c.setRight(d);
+        dNode.setLeft(f);
+
+        TreeNode eNode = dNode.setRight(e);
+        eNode.setRight(g);
 
         return new Tree(Arrays.asList(a, b, c, d, e));
     }
@@ -64,6 +74,30 @@ public class TreeTraversal {
         final Tree t = prepCreateArray();
 
         levelsOfTree(t.getRoot());
+    }
+
+    /**
+     * Given a Binary tree, print out all it's root to leaf paths.
+     */
+    public static void printRootToLeafPaths() {
+        final Tree t = prepCreateArray();
+
+        printRootToLeafPathsRecursive(t.getRoot(), new ArrayList<>(), 0);
+    }
+
+    /**
+     * Given a Binary tree, traverse a Binary tree in a zigzag order.
+     */
+    public static void printZigzagTraversal() {
+        final Tree t = prepCreateArray();
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        zigzagTraverse(t.getRoot(), result);
+
+        // print that array
+        // prints 3 2 4 1 5
+        result.stream().forEach(list -> Printer.println(list));
     }
 
     /**
@@ -124,6 +158,11 @@ public class TreeTraversal {
      * To print levels of a tree,
      * we use Level order traversal with a slight modification to identify the node which is
      * the last in the current level.
+     *
+     * This method also prints the following:
+     * 1. the count of levels
+     * 2. the max width of tree (i.e. the max no. of nodes at any level)
+     * 3. the max sum of any level
      */
     private static void levelsOfTree(final TreeNode node) {
 
@@ -139,20 +178,28 @@ public class TreeTraversal {
         q.add(node);
 
         int countLevels = 0;
+        int maxWidth = 0;
+        int maxSumOfLevel = 0;
 
         while (!q.isEmpty()) {
 
             final int initialQSize = q.size();
+            maxWidth = Math.max(maxWidth, initialQSize);
+            int sumOfLevel = 0;
 
             for (int i = 0; i < initialQSize; i ++) {
 
                 final TreeNode poppedNode = q.poll();
                 Printer.print(poppedNode.getData() + " ");
+                sumOfLevel += poppedNode.getData();
 
                 // check if the popped node is the last in the current level
                 if (i == initialQSize - 1) {
                     countLevels ++;
                     Printer.println();
+
+                    maxSumOfLevel = Math.max(maxSumOfLevel, sumOfLevel);
+                    sumOfLevel = 0;
                 }
 
                 // insert left child if it is non null
@@ -169,6 +216,96 @@ public class TreeTraversal {
             }
         }
 
-        Printer.print("No. of levels = " + countLevels);
+        Printer.println("No. of levels = " + countLevels);
+        Printer.println("Max width = " + maxWidth);
+        Printer.println("Max sum of level = " + maxSumOfLevel);
+    }
+
+    /**
+     * Does an inorder traversal and adds to path if the current node is a leaf.
+     *
+     * @param node
+     * @param pathList   List containing path information.
+     * @param pathIndex  Keeps track of path length at each recursion.
+     */
+    private static void printRootToLeafPathsRecursive(
+            final TreeNode node,
+            final List<TreeNode> pathList,
+            int pathIndex) {
+
+        if (node != null) {
+            pathList.add(pathIndex, node);
+            pathIndex ++;
+
+            if (node.getLeft() == null && node.getRight() == null) {
+                // reached a leaf, so print out pathList
+                // note that we don't print out the entire array list
+                // but only from 0 to pathIndex.
+                for (int i = 0; i < pathIndex; i ++) {
+                    Printer.print(pathList.get(i).getData() + " ");
+                }
+                Printer.println();
+            } else {
+                printRootToLeafPathsRecursive(node.getLeft(), pathList, pathIndex);
+                printRootToLeafPathsRecursive(node.getRight(), pathList, pathIndex);
+            }
+        }
+    }
+
+    /**
+     * We utilize level order traversal here. We include a stack to push elements whenever the level
+     * has to be printed in reverse order.
+     * @param node
+     * @param result
+     */
+    private static void zigzagTraverse(final TreeNode node, final List<List<Integer>> result) {
+
+        // validate node
+        if (node == null) {
+            return;
+        }
+
+        // level order bfs queue
+        final Queue<TreeNode> q = new LinkedList<>();
+
+        // insert root
+        q.add(node);
+
+        boolean leftToRight = true;
+
+        while (!q.isEmpty()) {
+
+            int initialQSize = q.size();
+            final List<Integer> levelData = new ArrayList<>();
+            final Stack<Integer> reverseLevelDataStack = new Stack<>();
+
+            for (int i = 0; i < initialQSize; i ++) {
+                final TreeNode poppedNode = q.poll();
+                if (leftToRight) {
+                    levelData.add(poppedNode.getData());
+                } else {
+                    reverseLevelDataStack.push(poppedNode.getData());
+                }
+
+                // insert left child if it is non null
+                TreeNode leftChild = poppedNode.getLeft();
+                if (leftChild != null) {
+                    q.add(leftChild);
+                }
+
+                // insert right child if it is non null
+                TreeNode rightChild = poppedNode.getRight();
+                if (rightChild != null) {
+                    q.add(rightChild);
+                }
+            }
+            if (levelData.isEmpty()) {
+                while (!reverseLevelDataStack.isEmpty()) {
+                    levelData.add(reverseLevelDataStack.pop());
+                }
+            }
+            result.add(levelData);
+            leftToRight = !leftToRight;
+        }
     }
 }
