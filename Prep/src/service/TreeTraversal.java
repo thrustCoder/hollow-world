@@ -222,7 +222,7 @@ public class TreeTraversal {
     }
 
     /**
-     * Does an inorder traversal and adds to path if the current node is a leaf.
+     * Does a preorder traversal and adds to path if the current node is a leaf.
      *
      * @param node
      * @param pathList   List containing path information.

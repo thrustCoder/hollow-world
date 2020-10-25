@@ -133,4 +133,13 @@ public class RandomExperiment {
         // throws NPE
         Printer.print(Arrays.asList(null));
     }
+
+    public static void testIntegerToLongConversion() {
+        Integer a = 10;
+        Printer.print(testIntegerToLongConversionHelper(a.longValue()));
+    }
+
+    private static boolean testIntegerToLongConversionHelper(long a) {
+        return a == 10l;
+    }
 }
