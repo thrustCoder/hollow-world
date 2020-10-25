@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.MapEntry;
+import util.Printer;
 
 /**
  * Given two configs, appConfig and defaultConfig (in JSON format),
@@ -56,10 +57,31 @@ import model.MapEntry;
 public class ConfigMergeAndOverrideSolution {
 
     // I am assuming that the JSON input has already been deserialized to Map<String, Object>
+    public static void invoke() {
+        Map<String, Object> appConfig = new HashMap<String, Object>(){{
+            put("key1", "val1");
+            put("key2", "val2");
+            put("key4", new HashMap<String, Object>(){{
+                put("key41", "val41");
+                put("key42", "val42");
+            }});
+        }};
+        Map<String, Object> defaultConfig = new HashMap<String, Object>(){{
+            put("key2", "val2_");
+            put("key3", "val3_");
+            put("key4", new HashMap<String, Object>(){{
+                put("key42", "val42_");
+                put("key43", "val43_");
+            }});
+        }};
+
+        // Prints {key1=val1, key2=val2, key3=val3_, key4={key43=val43_, key42=val42, key41=val41}}
+        Printer.print(configMapMergeAndOverride(appConfig, defaultConfig));
+    }
 
     // Time complexity: O(n + m) = O(n)
     // Space Complexity: O(n + m) = O(n)
-    public Map<String, Object>  configMapMergeAndOverride(
+    public static Map<String, Object>  configMapMergeAndOverride(
             Map<String, Object> appConfig,
             Map<String, Object> defaultConfig) {
 
@@ -93,7 +115,7 @@ public class ConfigMergeAndOverrideSolution {
         }
     }
 
-    private Map.Entry<String, Object>  configEntryMergeAndOverride(
+    private static Map.Entry<String, Object>  configEntryMergeAndOverride(
             Map.Entry<String, Object> appConfigEntry,
             Map.Entry<String, Object> defaultConfigEntry) {
 
@@ -125,7 +147,7 @@ public class ConfigMergeAndOverrideSolution {
     // Requires two passes.
     // Time complexity: O(2 * (n + m)) = O(n)
     // Space Complexity: O(2 * (n + m)) = O(n)
-    public Map<String, String>  configMapMergeAndOverrideStretchGoal(
+    public static Map<String, String>  configMapMergeAndOverrideStretchGoal(
             Map<String, Object> appConfig,
             Map<String, Object> defaultConfig) {
 
@@ -135,7 +157,7 @@ public class ConfigMergeAndOverrideSolution {
 
     }
 
-    private Map<String, String> flattenMap(
+    private static Map<String, String> flattenMap(
             Map<String, Object> unflattenedMap,
             String concatKey) {
 
