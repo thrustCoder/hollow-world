@@ -77,6 +77,11 @@ public class ConfigMergeAndOverrideSolution {
 
         // Prints {key1=val1, key2=val2, key3=val3_, key4={key43=val43_, key42=val42, key41=val41}}
         Printer.print(configMapMergeAndOverride(appConfig, defaultConfig));
+
+        Printer.println();
+
+        // Prints {key1=val1, key2=val2, key4.key42=val42, key4.key43=val43_, key4.key41=val41, key3=val3_}
+        Printer.print(configMapMergeAndOverrideStretchGoal(appConfig, defaultConfig));
     }
 
     // Time complexity: O(n + m) = O(n)
@@ -151,17 +156,19 @@ public class ConfigMergeAndOverrideSolution {
             Map<String, Object> appConfig,
             Map<String, Object> defaultConfig) {
 
-        Map<String, Object> unflattenedResultMap =  configMapMergeAndOverride(appConfig, defaultConfig);
-
-        return flattenMap(unflattenedResultMap, null);
-
-    }
-
-    private static Map<String, String> flattenMap(
-            Map<String, Object> unflattenedMap,
-            String concatKey) {
+        Map<String, Object> unflattenedMap =  configMapMergeAndOverride(appConfig, defaultConfig);
 
         Map<String, String> flattenedResultMap = new HashMap<>();
+        String concatKey = null;
+        flattenMap(unflattenedMap, flattenedResultMap, concatKey);
+
+        return flattenedResultMap;
+    }
+
+    private static void flattenMap(
+            Map<String, Object> unflattenedMap,
+            Map<String, String> flattenedResultMap,
+            String concatKey) {
 
         // input validation
         if (unflattenedMap != null) {
@@ -173,17 +180,20 @@ public class ConfigMergeAndOverrideSolution {
                 // base case
                 if (val == null || val instanceof String) {
                     flattenedResultMap.put(
-                            concatKey == null
-                                    ? entry.getKey()
-                                    : String.join(".", concatKey, entry.getKey()),
+                            getConcatenatedKey(concatKey, entry.getKey()),
                             (String) val);
                 } else {
                     // entry value is a Map
                     // so recurse on the entry values
-                    return flattenMap((Map) val, concatKey);
+                    flattenMap((Map) val, flattenedResultMap, getConcatenatedKey(concatKey, entry.getKey()));
                 }
             }
         }
-        return flattenedResultMap;
+    }
+
+    // If concatKey is empty, just returns the entry key (this would be the case for leaf entries)
+    // else concatenates the entry key to the concatKey (this would be the case for child entries)
+    private static String getConcatenatedKey(final String concatKey, final String entryKey) {
+        return concatKey == null ? entryKey : String.join(".", concatKey, entryKey);
     }
 }
