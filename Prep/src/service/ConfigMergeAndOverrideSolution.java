@@ -223,8 +223,6 @@ public class ConfigMergeAndOverrideSolution {
                             flattenMap((Map) val, flattenedResultMap, updatedConcatKey);
                         }
                     });
-
-
         }
     }
 
