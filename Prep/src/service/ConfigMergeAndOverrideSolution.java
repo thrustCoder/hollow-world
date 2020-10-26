@@ -58,7 +58,8 @@ public class ConfigMergeAndOverrideSolution {
 
     // I am assuming that the JSON input has already been deserialized to Map<String, Object>
     public static void invoke() {
-        Map<String, Object> appConfig = new HashMap<String, Object>(){{
+        // Testcase 1
+        Map<String, Object> appConfig1 = new HashMap<String, Object>(){{
             put("key1", "val1");
             put("key2", "val2");
             put("key4", new HashMap<String, Object>(){{
@@ -66,7 +67,7 @@ public class ConfigMergeAndOverrideSolution {
                 put("key42", "val42");
             }});
         }};
-        Map<String, Object> defaultConfig = new HashMap<String, Object>(){{
+        Map<String, Object> defaultConfig1 = new HashMap<String, Object>(){{
             put("key2", "val2_");
             put("key3", "val3_");
             put("key4", new HashMap<String, Object>(){{
@@ -74,14 +75,47 @@ public class ConfigMergeAndOverrideSolution {
                 put("key43", "val43_");
             }});
         }};
-
         // Prints {key1=val1, key2=val2, key3=val3_, key4={key43=val43_, key42=val42, key41=val41}}
-        Printer.print(configMapMergeAndOverride(appConfig, defaultConfig));
+        Printer.print(configMapMergeAndOverride(appConfig1, defaultConfig1));
 
         Printer.println();
 
+        // Testcase 2
+        Map<String, Object> appConfig2 = new HashMap<String, Object>(){{
+            put("key1", "val1");
+            put("key2", new HashMap<String, Object>(){{
+                put("key23", "val23");
+            }});
+        }};
+        Map<String, Object> defaultConfig2 = new HashMap<String, Object>(){{
+            put("key1", "val1");
+            put("key2", new HashMap<String, Object>(){{
+                put("key21", "val21");
+                put("key22", "val22");
+            }});
+        }};
+        // Prints {key1=val1, key2={key23=val23, key22=val22, key21=val21}}
+        Printer.print(configMapMergeAndOverride(appConfig2, defaultConfig2));
+
+        Printer.println();
+
+        // Stretch Goal Testcase 1
         // Prints {key1=val1, key2=val2, key4.key42=val42, key4.key43=val43_, key4.key41=val41, key3=val3_}
-        Printer.print(configMapMergeAndOverrideStretchGoal(appConfig, defaultConfig));
+        Printer.print(configMapMergeAndOverrideStretchGoal(appConfig1, defaultConfig1));
+
+        Printer.println();
+
+        // Stretch Goal Testcase 2
+        appConfig2 = new HashMap<String, Object>(){{
+            put("key1", "val1");
+            put("key2", new HashMap<String, Object>(){{
+                put("key21", "val21");
+            }});
+            put("key3", "val3");
+        }};
+        defaultConfig2 = new HashMap<>();
+        // Prints {key1=val1, key3=val3, key2.key21=val21}
+        Printer.print(configMapMergeAndOverrideStretchGoal(appConfig2, defaultConfig2));
     }
 
     // Time complexity: O(n + m) = O(n)
@@ -91,9 +125,9 @@ public class ConfigMergeAndOverrideSolution {
             Map<String, Object> defaultConfig) {
 
         // input validation
-        if (appConfig == null) {
+        if (appConfig == null || appConfig.isEmpty()) {
             return defaultConfig;
-        } else if (defaultConfig == null) {
+        } else if (defaultConfig == null || defaultConfig.isEmpty()) {
             return appConfig;
         } else {
             final Map<String, Object> resultConfig = new HashMap<>();
@@ -125,22 +159,24 @@ public class ConfigMergeAndOverrideSolution {
             Map.Entry<String, Object> defaultConfigEntry) {
 
         Object defaultConfigVal = defaultConfigEntry.getValue();
+        Object appConfigVal = appConfigEntry.getValue();
 
-        // base case
-        if (defaultConfigVal == null || defaultConfigVal instanceof String) {
-            // entry is either not present in defaultConfig
-            // or it's value is just a String
-            // so directly override with appConfig entry 
-            return appConfigEntry;
-
-        } else {
-            // entry value is a Map
+        if (defaultConfigVal instanceof Map && appConfigVal instanceof Map) {
+            // both appConfig entry value and defaultConfig entry values are Maps
             // so recurse on the entry values
             Map.Entry<String, Object> resultEntry = new MapEntry<>(
                     appConfigEntry.getKey(),
                     // recursive call on value map
-                     configMapMergeAndOverride((Map) appConfigEntry.getValue(), (Map) defaultConfigVal));
+                    configMapMergeAndOverride((Map) appConfigVal, (Map) defaultConfigVal));
             return resultEntry;
+        } else {
+            // Base case.
+            // This may include:
+            // entry is either not present in defaultConfig
+            // or it's value is just a String
+            // or it's value is a Map but the appConfig value is not a Map
+            // so directly override with appConfig entry
+            return appConfigEntry;
         }
     }
 
@@ -173,21 +209,22 @@ public class ConfigMergeAndOverrideSolution {
         // input validation
         if (unflattenedMap != null) {
             // iterate over unflattenedMap
-            for (Map.Entry<String, Object> entry : unflattenedMap.entrySet()) {
+            unflattenedMap.entrySet().stream()
+                    .forEach(entry -> {
+                        Object val = entry.getValue();
 
-                Object val = entry.getValue();
+                        // base case
+                        final String updatedConcatKey = getConcatenatedKey(concatKey, entry.getKey());
+                        if (val == null || val instanceof String) {
+                            flattenedResultMap.put(updatedConcatKey, (String) val);
+                        } else {
+                            // entry value is a Map
+                            // so recurse on the entry values
+                            flattenMap((Map) val, flattenedResultMap, updatedConcatKey);
+                        }
+                    });
 
-                // base case
-                if (val == null || val instanceof String) {
-                    flattenedResultMap.put(
-                            getConcatenatedKey(concatKey, entry.getKey()),
-                            (String) val);
-                } else {
-                    // entry value is a Map
-                    // so recurse on the entry values
-                    flattenMap((Map) val, flattenedResultMap, getConcatenatedKey(concatKey, entry.getKey()));
-                }
-            }
+
         }
     }
 
