@@ -6,7 +6,10 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Created by rpsin on 3/3/2017.
@@ -137,6 +140,22 @@ public class RandomExperiment {
     public static void testIntegerToLongConversion() {
         Integer a = 10;
         Printer.print(testIntegerToLongConversionHelper(a.longValue()));
+    }
+
+    public static void testContainsInEmptyCollection() {
+        Set<String> set = new HashSet<>();
+        // Prints false
+        Printer.print(set.contains(null));
+    }
+
+    public static void testOptionalNullableEmptyString() {
+        String a = "a";
+
+        // this is equivalent to String s = a;
+        String s = Optional.ofNullable(a).orElse(null);
+
+        // Prints a
+        System.out.println(s);
     }
 
     private static boolean testIntegerToLongConversionHelper(long a) {

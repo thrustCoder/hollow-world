@@ -361,10 +361,11 @@ public class LinkedList {
 
         while (!stack.isEmpty()) {
             LinkedListNode topNode = stack.pop();
-            topNode.setNext(null);
             current.setNext(topNode);
             current = current.next();
         }
+        // set the next of last node to null
+        current.setNext(null);
 
         return newHead;
     }
@@ -372,7 +373,7 @@ public class LinkedList {
     /**
      * Uses three pointers - prevNode, currentNode and nextNode to reverse a linked list in place.
      */
-    private static LinkedListNode reverseIterative(final LinkedListNode head) {
+    private static LinkedListNode reverseIterativeInPlace(final LinkedListNode head) {
         LinkedListNode currentNode = head;
         LinkedListNode prevNode = null;
 
