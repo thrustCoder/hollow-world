@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * Created by rpsin on 3/3/2017.
@@ -156,6 +157,21 @@ public class RandomExperiment {
 
         // Prints a
         System.out.println(s);
+    }
+
+    public static void sortStack() {
+        Stack<Integer> st = new Stack<>();
+        st.add(6);
+        st.add(4);
+        st.add(1);
+        st.add(5);
+        st.add(6);
+
+        Printer.println("Unsorted = " + st);
+        Collections.sort(st);
+        Printer.println("Sorted = " + st);
+        Collections.reverse(st);
+        Printer.println("Reverse Sorted = " + st);
     }
 
     private static boolean testIntegerToLongConversionHelper(long a) {

@@ -1,5 +1,7 @@
 package service;
 
+import java.util.Stack;
+
 import util.Printer;
 
 /**
@@ -60,5 +62,61 @@ public class StringManipulation {
         }
 
         Printer.println(new String(newStr));
+    }
+
+    // Recursively remove all adjacent duplicate from the given String
+    // https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/
+    public static void removeAdjDup()
+    {
+        // Prints acac
+        // String S = "acaaabbbacdddd";
+
+        // Prints lop
+        // String S = "ocvvcolop";
+
+        // Prints MIPIE,
+        // Well ideally, it should print MPIE, per https://www.geeksforgeeks.org/recursively-remove-adjacent-duplicates-given-string/
+        // But I think this is an edge case that if coded for, will make the solution more complicated (with recursive calls etc.)
+        // Also, it depends on what the interviewer is asking for.
+        // String S = "MISSISSIPIE";
+
+        // Prints ca
+        String S = "abbaca";
+
+        Printer.println("Input = " + S);
+
+        // input validation
+        if (S == null || S.length() <= 1) {
+            Printer.println("Output = Input = " + S);
+            return;
+        }
+
+        final char[] charStr = S.toCharArray();
+        final int strLength = charStr.length;
+
+        final Stack<Character> nonDupChars = new Stack<>();
+
+        for (int i = 0; i < strLength; i ++) {
+            final char currChar = charStr[i];
+
+            if (!nonDupChars.isEmpty() && nonDupChars.peek() == currChar) {
+                nonDupChars.pop();
+
+                while (i + 1 < strLength && currChar == charStr[i + 1]) {
+                    i ++;
+                }
+            } else {
+                nonDupChars.push(currChar);
+            }
+        }
+
+        final StringBuilder resultSb = new StringBuilder();
+        for (char c : nonDupChars) {
+            resultSb.append(c);
+        }
+
+        String result = resultSb.toString();
+
+        Printer.println("Output = " + result);
     }
 }
