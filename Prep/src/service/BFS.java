@@ -17,11 +17,11 @@ public class BFS {
         // page 221
 
         // create a Graph
-        GraphNode a = new GraphNode(1);
-        GraphNode b = new GraphNode(2);
-        GraphNode c = new GraphNode(3);
-        GraphNode d = new GraphNode(4);
-        GraphNode e = new GraphNode(5);
+        GraphNode a = new GraphNode<Integer>(1);
+        GraphNode b = new GraphNode<Integer>(2);
+        GraphNode c = new GraphNode<Integer>(3);
+        GraphNode d = new GraphNode<Integer>(4);
+        GraphNode e = new GraphNode<Integer>(5);
 
         /*
             a(1) ⃗ b(2)
@@ -32,22 +32,18 @@ public class BFS {
         c.setAdjacentNodes(Arrays.asList(d));
         d.setAdjacentNodes(Arrays.asList(e));
 
-        Graph g = new Graph(Arrays.asList(a, b, c, d, e));
-        if (BFS(g, a, e)) {
+        if (BFS(a, e)) {
             Printer.println("There is a path!");
         } else {
             Printer.println("Sorry no path");
         }
     }
 
-    public static boolean BFS(Graph g, GraphNode start, GraphNode end) {
-        // unset visited state
-        g.getNodes().parallelStream()
-                .forEach(node -> {node.setState(VisitedState.UNVISITED);});
+    public static boolean BFS(GraphNode<Integer> start, GraphNode<Integer> end) {
 
         // initialize queue
         // Queue is an interface, so we use LinkedList to implement Queue
-        Queue<GraphNode> q = new LinkedList<>();
+        Queue<GraphNode<Integer>> q = new LinkedList<>();
 
         // start state
         start.setState(VisitedState.VISITING);
@@ -55,11 +51,10 @@ public class BFS {
 
         // until the queue is empty
         while (!q.isEmpty()) {
-            GraphNode node = q.poll();
-            Printer.print(node.data() + " ");
+            GraphNode<Integer> node = q.poll();
 
             // for each node in adjacent nodes
-            for (GraphNode adjNode: node.getAdjacentNodes()) {
+            for (GraphNode<Integer> adjNode: node.getAdjacentNodes()) {
 
                 // you want to visit only if unvisited
                 if (adjNode.getState() == VisitedState.UNVISITED) {

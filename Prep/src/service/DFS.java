@@ -13,11 +13,11 @@ public class DFS {
 
     public static void prepareDFS() {
         // create a Graph
-        GraphNode a = new GraphNode(1);
-        GraphNode b = new GraphNode(2);
-        GraphNode c = new GraphNode(3);
-        GraphNode d = new GraphNode(4);
-        GraphNode e = new GraphNode(5);
+        GraphNode a = new GraphNode<Integer>(1);
+        GraphNode b = new GraphNode<Integer>(2);
+        GraphNode c = new GraphNode<Integer>(3);
+        GraphNode d = new GraphNode<Integer>(4);
+        GraphNode e = new GraphNode<Integer>(5);
 
         /*
             a(1) ⃗ b(2)
@@ -28,24 +28,14 @@ public class DFS {
         c.setAdjacentNodes(Arrays.asList(d));
         d.setAdjacentNodes(Arrays.asList(e));
 
-        Graph g = new Graph(Arrays.asList(a, b, c, d, e));
-        if (DFS(g, a, e)) {
+        if (DFS(a, e)) {
             Printer.println("There is a path!");
         } else {
             Printer.println("Sorry no path");
         }
     }
 
-    public static boolean DFS(Graph g, GraphNode start, GraphNode end) {
-        // unset initial states
-        g.getNodes().parallelStream()
-                .forEach(node -> {node.setState(VisitedState.UNVISITED);});
-
-        Printer.print(String.format("DFS traversal of Graph starting from node %d = ", start.data()));
-        return DFSVisit(start, end);
-    }
-
-    private static boolean DFSVisit(GraphNode node, GraphNode end) {
+    private static boolean DFS(GraphNode<Integer> node, GraphNode<Integer> end) {
         // base case of recursion
         if (node == null) {
             return false;
@@ -53,8 +43,6 @@ public class DFS {
 
         // set VISITING state
         node.setState(VisitedState.VISITING);
-        // Prints 1 2 3 4 5
-        Printer.print(node.data() + " ");
 
         // processing
         // this block (and an end node) is only required for the purposes of this problem (finding a path).
@@ -64,9 +52,9 @@ public class DFS {
         }
 
         boolean pathExists = false;
-        for(GraphNode adjNode: node.getAdjacentNodes()) {
+        for(GraphNode<Integer> adjNode: node.getAdjacentNodes()) {
             if (adjNode.getState() == VisitedState.UNVISITED) {
-                pathExists = DFSVisit(adjNode, end);
+                pathExists = DFS(adjNode, end);
             }
         }
 

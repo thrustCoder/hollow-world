@@ -36,6 +36,37 @@ public class StringManipulation {
     // Page 175 CCI Book
     public static void replaceSpaces() {
         String str1 = " ab cd ";
+
+        // Input validation
+        if (str1 == null || str1.isEmpty()) {
+            Printer.println("Input string is null or empty");
+            return;
+        }
+
+        // final String result = replaceSpacesCharArray(str1);
+        final String result = replaceSpacesStringBuilder(str1);
+
+        // Prints %20ab%20cd%20
+        Printer.println(result);
+    }
+
+    private static String replaceSpacesStringBuilder(final String str1) {
+
+        final StringBuilder resultSb = new StringBuilder();
+        for (int i = 0; i < str1.length(); i ++) {
+
+            final char currChar = str1.charAt(i);
+
+            if (currChar == ' ') {
+                resultSb.append("%20");
+            } else {
+                resultSb.append(currChar);
+            }
+        }
+        return resultSb.toString();
+    }
+
+    private static String replaceSpacesCharArray(final String str1) {
         char[] str = str1.toCharArray();
 
         int countSpaces = 0;
@@ -48,7 +79,7 @@ public class StringManipulation {
         int newLength = str.length + countSpaces*2;
         char[] newStr = new char[newLength];
 
-        int newIndex = newLength - 1;
+        /*int newIndex = newLength - 1;
 
         for (int i = str.length - 1; i >= 0; i--) {
             if (str[i] == ' ') {
@@ -59,9 +90,23 @@ public class StringManipulation {
             } else {
                 newStr[newIndex--] = str[i];
             }
+        }*/
+
+        // Either iterate from end like above
+        // or iterate from beginning like below:
+
+        int newIndex = 0;
+        for (int i = 0; i < str.length; i ++) {
+            if (str[i] == ' ') {
+                newStr[newIndex ++] = '%';
+                newStr[newIndex ++] = '2';
+                newStr[newIndex ++] = '0';
+            } else {
+                newStr[newIndex ++] = str[i];
+            }
         }
 
-        Printer.println(new String(newStr));
+        return new String(newStr);
     }
 
     // Recursively remove all adjacent duplicate from the given String

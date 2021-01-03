@@ -12,11 +12,11 @@ public class BFSHash {
     public static void prepareBFS() {
 
         // create a Graph
-        GraphNode a = new GraphNode(1);
-        GraphNode b = new GraphNode(2);
-        GraphNode c = new GraphNode(3);
-        GraphNode d = new GraphNode(4);
-        GraphNode e = new GraphNode(5);
+        GraphNode a = new GraphNode<Integer>(1);
+        GraphNode b = new GraphNode<Integer>(2);
+        GraphNode c = new GraphNode<Integer>(3);
+        GraphNode d = new GraphNode<Integer>(4);
+        GraphNode e = new GraphNode<Integer>(5);
 
         a.setAdjacentNodes(Arrays.asList(b, c));
         c.setAdjacentNodes(Arrays.asList(d));
@@ -30,19 +30,19 @@ public class BFSHash {
         }
     }
 
-    public static boolean BFS(Graph g, GraphNode start, GraphNode end) {
+    public static boolean BFS(Graph g, GraphNode<Integer> start, GraphNode<Integer> end) {
 
         // initialize queue
         // Queue is an abstract class, so we use LinkedList to mimic Queue
-        java.util.LinkedList<GraphNode> q = new LinkedList<>();
-        HashSet <GraphNode> visited = new HashSet<>();
+        java.util.LinkedList<GraphNode<Integer>> q = new LinkedList<>();
+        HashSet<GraphNode<Integer>> visited = new HashSet<>();
         // start state
 //        start.setState(VisitedState.VISITING);
         q.add(start);
 
         // until the queue is empty
         while (!q.isEmpty()) {
-            GraphNode node = q.removeFirst();
+            GraphNode<Integer> node = q.removeFirst();
             if(!visited.contains(node)){
 
                 visited.add(node);
@@ -50,7 +50,7 @@ public class BFSHash {
             }
 
             // for each node in adjacent nodes
-            for (GraphNode adjNode: node.getAdjacentNodes()) {
+            for (GraphNode<Integer> adjNode: node.getAdjacentNodes()) {
 
                 if(!visited.contains(adjNode)){
 

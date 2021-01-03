@@ -8,21 +8,21 @@ import java.util.List;
 /**
  * Created by rpsin on 10/16/2016.
  */
-public class GraphNode {
-    private int data;
+public class GraphNode<T> {
+    private T data;
     private VisitedState state;
-    private List<GraphNode> adjacentNodes;
+    private List<GraphNode<T>> adjacentNodes;
 
-    public GraphNode(int d) {
+    public GraphNode(T d) {
         data = d;
         state = VisitedState.UNVISITED;
         adjacentNodes = new ArrayList<>();
     }
 
-    public int data() {
+    public T data() {
         return data;
     }
-    public void setData(int d) {
+    public void setData(T d) {
         data = d;
     }
 
@@ -33,10 +33,10 @@ public class GraphNode {
         state = s;
     }
 
-    public List<GraphNode> getAdjacentNodes() {
+    public List<GraphNode<T>> getAdjacentNodes() {
         return adjacentNodes;
     }
-    public void setAdjacentNodes(List<GraphNode> a) {
+    public void setAdjacentNodes(List<GraphNode<T>> a) {
         adjacentNodes = a;
     }
 }
