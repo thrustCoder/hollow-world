@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 
 /**
  * Created by rpsin on 3/3/2017.
@@ -172,6 +173,21 @@ public class RandomExperiment {
         Printer.println("Sorted = " + st);
         Collections.reverse(st);
         Printer.println("Reverse Sorted = " + st);
+    }
+
+    public static void testTreeSetSorting() {
+        int[] arr = {1, 94, 93, 1000, 5, 92, 78};
+
+        final TreeSet<Integer> treeSet = new TreeSet<>();
+
+        for (int i = 0; i < arr.length; i ++) {
+            treeSet.add(arr[i]);
+        }
+
+        // Prints sorted array
+        // I think it takes O(nlgn) time - same as sorting an array
+        // https://stackoverflow.com/questions/14379515/computational-complexity-of-treeset-methods-in-java
+        Printer.print("TreeSet = " + treeSet);
     }
 
     private static boolean testIntegerToLongConversionHelper(long a) {
