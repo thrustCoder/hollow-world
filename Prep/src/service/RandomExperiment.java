@@ -6,8 +6,10 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
@@ -192,5 +194,50 @@ public class RandomExperiment {
 
     private static boolean testIntegerToLongConversionHelper(long a) {
         return a == 10l;
+    }
+
+    public static void testListClone() {
+        List<Integer> x = new ArrayList<>();
+        x.add(1);
+
+        Printer.println(((ArrayList<Integer>) x).clone());
+        // or
+        Printer.println(new ArrayList<>(x));
+    }
+
+    public static void testListRemove() {
+        List<String> x = new ArrayList<>();
+        x.add("a");
+        x.remove("a");
+
+        List<Integer> y = new ArrayList<>();
+        y.add(10);
+        y.remove(0);  // this has to be index since your List itself is made of Integers
+
+        Printer.println(x);
+        Printer.println(y);
+    }
+
+    public static void testEmptyMapWithNullValue() {
+        Map<Integer, Integer> testMap = new HashMap<>();
+
+        // Prints true
+        Printer.println(testMap.isEmpty());
+
+        testMap.put(1, null);
+        // Prints false
+        Printer.println(testMap.isEmpty());
+
+        testMap.put(1, 1);
+        testMap.computeIfPresent(1, (k, v) -> v == 1 ? null : 2);
+
+        // Prints true
+        Printer.println(testMap.isEmpty());
+    }
+
+    public static void testCharacterUnicode() {
+        // doesn't work with emojis though
+        Character c = new Character('あ');
+        Printer.print(c);
     }
 }

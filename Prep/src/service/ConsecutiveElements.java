@@ -57,14 +57,16 @@ public class ConsecutiveElements {
         final Map<Integer, Integer> elementCount = new HashMap<>();
         // populate the map
         for (int i = 0; i < length; i ++) {
-            elementCount.put(arr[i], elementCount.getOrDefault(arr[i], 0) + 1);
+            //elementCount.put(arr[i], elementCount.getOrDefault(arr[i], 0) + 1);
+
+            // this is the same as above
+            elementCount.compute(arr[i], (k, v) -> v == null ? 1 : v + 1);
         }
 
         int streaksOfFiveConsecutiveElements = 0;
 
         // iterate over the array
-        int i = 0;
-        while (i < length && !elementCount.isEmpty()) {
+        for (int i = 0; i < length && !elementCount.isEmpty(); i ++) {
             if (elementCount.get(arr[i]) != null && elementCount.get(arr[i] - 1) == null) {
                 // this is the first element in a potential consecutive streak
                 int currStreak = 1;
@@ -78,19 +80,18 @@ public class ConsecutiveElements {
                 }
 
                 if (currStreak == 5) {
-                    // remove the last processed element from the map
+                    // reduce the count of the last processed element
                     reduceElementCount(elementCount, currElement);
 
                     streaksOfFiveConsecutiveElements ++;
                 }
             }
-            i ++;
         }
         return streaksOfFiveConsecutiveElements > 0 && elementCount.isEmpty();
     }
 
     private static void reduceElementCount(final Map<Integer, Integer> elementCount, final Integer element) {
-        final Integer count = elementCount.get(element);
+        /*final Integer count = elementCount.get(element);
 
         if (count == null) {
             // shouldn't happen
@@ -102,6 +103,10 @@ public class ConsecutiveElements {
             elementCount.remove(element);
         } else {
             elementCount.put(element, count - 1);
-        }
+        }*/
+
+        // this is the same as above
+        // Note computeIfPresent will remove the key too if the value is null
+        elementCount.computeIfPresent(element, (k, v) -> v <= 1 ? null : v - 1);
     }
 }
