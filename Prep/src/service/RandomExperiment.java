@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -205,6 +206,36 @@ public class RandomExperiment {
         Printer.println(new ArrayList<>(x));
     }
 
+    public static void testArrayClone() {
+        Integer[] a = new Integer[]{1, 2, 3};
+        Integer[] b = a.clone();
+
+        for (Integer i : b) {
+            Printer.print(i + " ");
+        }
+    }
+
+    public static void testComparatorSort2dArr() {
+        int[][] interval = new int[][]{{1,2}, {2,3}, {0,4}};
+
+        // sort based on first element
+        Arrays.sort(interval, (a, b) -> a[0] - b[0]);
+
+        /*
+            Prints:
+            0 4
+            1 2
+            2 3
+         */
+        for (int i = 0; i < interval.length; i ++) {
+            for (int j = 0; j < interval[i].length; j ++) {
+                Printer.print(interval[i][j] + " ");
+            }
+            Printer.println();
+        }
+
+    }
+
     public static void testListRemove() {
         List<String> x = new ArrayList<>();
         x.add("a");
@@ -239,5 +270,11 @@ public class RandomExperiment {
         // doesn't work with emojis though
         Character c = new Character('あ');
         Printer.print(c);
+    }
+
+    public static void testCreateStringFromChars() {
+        char a = 'a';
+        final String x = new String(Character.toChars(a));
+        Printer.println(x);
     }
 }
