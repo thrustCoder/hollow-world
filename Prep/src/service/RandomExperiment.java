@@ -2,6 +2,7 @@ package service;
 
 import util.Printer;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -276,5 +277,26 @@ public class RandomExperiment {
         char a = 'a';
         final String x = new String(Character.toChars(a));
         Printer.println(x);
+    }
+
+    public static void testLongDivision() {
+        Long a = 10l;
+        Long b = 3l;
+        Long c = a / b;
+        // Prints 3
+        Printer.print(c);
+    }
+
+    public static void testIntegerDivision() {
+        double a = 3.3;
+        int b = 1;
+        int c = (int) a/b;
+        // Prints 3
+        Printer.println(c);
+
+        BigDecimal x = new BigDecimal(3.99);
+        int y = x.intValue();
+        // Prints 3
+        Printer.println(y);
     }
 }
