@@ -1,7 +1,5 @@
 package service;
 
-import util.Printer;
-
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -12,10 +10,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
+import java.util.stream.Stream;
+
+import util.Printer;
 
 /**
  * Created by rpsin on 3/3/2017.
@@ -217,7 +217,7 @@ public class RandomExperiment {
     }
 
     public static void testComparatorSort2dArr() {
-        int[][] interval = new int[][]{{1,2}, {2,3}, {0,4}};
+        Integer[][] interval = new Integer[][]{{1,2}, {2,3}, {0,4}};
 
         // sort based on first element
         Arrays.sort(interval, (a, b) -> a[0] - b[0]);
@@ -235,6 +235,18 @@ public class RandomExperiment {
             Printer.println();
         }
 
+        // Prints 041223
+        Arrays.stream(interval).flatMap(Stream::of).forEach(Printer::print);
+    }
+
+    public static void testCreatingStringFromInt() {
+        int a = 10;
+        String str = String.valueOf(a);
+        Printer.println(str);
+
+        Integer b = a;
+        String str2 = b.toString();
+        Printer.println(str2);
     }
 
     public static void testListRemove() {
@@ -298,5 +310,30 @@ public class RandomExperiment {
         int y = x.intValue();
         // Prints 3
         Printer.println(y);
+    }
+
+    public static void testSplitWhitespaces() {
+        String a = "  Hello world  ";
+        String[] b = a.split(" ");
+        for (String x : b) {
+            // Prints " ", "Hello", "world", " "
+            Printer.println(x);
+        }
+        // Prints 4
+        Printer.println(b.length);
+
+        // trims leading and trailing whitespaces
+        String aTrim = a.trim();
+        // Prints "Hello world"
+        Printer.print(aTrim);
+
+        // Prints " Hellow world "
+        String aRegex = a.replaceAll("\\s+", " ");
+        Printer.println(aRegex);
+    }
+
+    public static void testParseLong() {
+        String a = new String();
+        Printer.print(Long.parseLong(a));
     }
 }

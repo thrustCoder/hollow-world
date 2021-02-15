@@ -52,6 +52,13 @@ public class BFSMazePath {
         Printer.println(BFS(maze, source, dest));
     }
 
+
+    /**
+     * Time complexity: O(n*m) -- because there are a total of nm elements in this matrix
+     * And in the worst case you may have to insert each one into the Queue
+     * The work that's done on each element (e.g. dequeing, setting visited state etc.)
+     * takes constant time. So overall the time complexity is O(n*m)
+     */
     private static int BFS(final int[][] maze, final Cell source, final Cell dest) {
 
         final int sourceX = source.getX();

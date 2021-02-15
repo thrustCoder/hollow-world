@@ -28,7 +28,7 @@ public class DFS {
         c.setAdjacentNodes(Arrays.asList(d));
         d.setAdjacentNodes(Arrays.asList(e));
 
-        if (DFS(a, e)) {
+        if (DFS(b, e)) {
             Printer.println("There is a path!");
         } else {
             Printer.println("Sorry no path");
@@ -55,6 +55,9 @@ public class DFS {
         for(GraphNode<Integer> adjNode: node.getAdjacentNodes()) {
             if (adjNode.getState() == VisitedState.UNVISITED) {
                 pathExists = DFS(adjNode, end);
+                if (pathExists) {
+                    return true;
+                }
             }
         }
 
