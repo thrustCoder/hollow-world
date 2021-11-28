@@ -104,8 +104,10 @@ public class BFSMazePath {
                     }
                 }
             }
+
             visited[currCell.getX()][currCell.getY()] = VisitedState.VISITED;
         }
+
         // no path b/w source and dest
         return -1;
     }

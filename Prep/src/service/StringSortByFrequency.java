@@ -10,6 +10,9 @@ import java.util.regex.Pattern;
 
 import util.Printer;
 
+/**
+ * Sort a string in the descending order of the frequenecy of its characters.
+ */
 public class StringSortByFrequency {
     public static void invoke() {
         String a  = "a";

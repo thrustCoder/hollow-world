@@ -34,7 +34,7 @@ public class ReverseWordsOfSentence {
         final StringBuilder stringSb = new StringBuilder();
 
         for (int i = 0; i < componentsLen; i ++) {
-            stringSb.append(punctAwareStringReversal(components[i]));
+            stringSb.append(punctExcludingStringReversal(components[i]));
             if (i != componentsLen - 1) {
                 stringSb.append(SPACE);
             }
@@ -44,7 +44,7 @@ public class ReverseWordsOfSentence {
     }
 
     // Only need to check for punctuation at the end.
-    private static String punctAwareStringReversal(final String str) {
+    private static String punctExcludingStringReversal(final String str) {
         int i = str.length() - 1;
         StringBuilder punctSb = new StringBuilder();
         while (i >= 0 && isPunct(str.charAt(i))) {

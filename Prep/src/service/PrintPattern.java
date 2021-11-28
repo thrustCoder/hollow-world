@@ -101,13 +101,14 @@ public class PrintPattern {
         for (int i = 0; i < n; i ++) {
 
             // First inner loop - Print *left* spaces for ith row.
-            // e.g. if n = 5, stop at index 3, since we need to print the star at index 4.
+            // n - i - 1 is the no. of spaces to print before printing the first star.
             for (int j = 0; j < (n - i - 1); j ++) {
                 // printing 2 spaces for displaying correctly.
                 Printer.print("  ");
             }
 
             // Second inner loop - Print stars for ith row.
+            // Note that no. of stars to print is equal to i.
             for (int j = 0; j <= i; j ++) {
                 Printer.print("* ");
             }
@@ -131,13 +132,14 @@ public class PrintPattern {
         for (int i = 0; i < n; i ++) {
 
             // First inner loop - Print *left* spaces for ith row.
-            // e.g. if n = 3, stop at index 1, since we need to print the star at index 2.
+            // n - i - 1 is the no. of spaces to print before printing the first star.
             for (int j = 0; j < (n - i - 1); j ++) {
                 // printing only 1 spaces for displaying correctly.
                 Printer.print(" ");
             }
 
             // Second inner loop - Print stars for ith row.
+            // Note that no. of stars to print is equal to i.
             for (int j = 0; j <= i; j ++) {
                 Printer.print("* ");
             }

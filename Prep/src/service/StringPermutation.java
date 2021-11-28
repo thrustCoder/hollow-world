@@ -1,5 +1,6 @@
 package service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,29 +34,27 @@ public class StringPermutation {
 
         // validate str
         if (str == null) {
-            return null;
+            return Collections.emptySet();
         }
 
         final Set<String> permutations = new HashSet<>();
 
         // base case
         if (str.isEmpty()) {
+            // note that str itself is equal to "" at this point
             permutations.add("");
 
         } else {
-
             // recursively call this method on substring sans first character
             final char firstChar = str.charAt(0);
             final String sansFirstChar = str.substring(1);
             final Set<String> permuteStrings = getPermutations(sansFirstChar);
 
             for (final String permuteString : permuteStrings) {
-
                 // insert firstChar at every ith position of permuteString
                 for (int i = 0; i <= permuteString.length(); i++) {
                     permutations.add(insertCharAt(permuteString, i, firstChar));
                 }
-
             }
         }
 

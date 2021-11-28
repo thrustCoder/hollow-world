@@ -28,15 +28,18 @@ public class Recursion {
     }
 
     public static double powWithRecursion(double a, int n) {
-        final double pow = powRecursiveUnit(a, Math.abs(n));
-
         if (n >= 0) {
-            return pow;
+            if (a == 0) {
+                // 0 power anything positive is 0.
+                return 0;
+            }
+            return powRecursiveUnitAlternative(a, n);
         } else {
             if (a == 0) {
+                // 0 power anything negative is undefined.
                 throw new IllegalArgumentException("Denominator is 0");
             }
-            return 1/pow;
+            return 1/powRecursiveUnitAlternative(a, Math.abs(n));
         }
     }
 
@@ -58,6 +61,21 @@ public class Recursion {
         }
     }
 
+    /**
+     * Alternative recursive solution to powRecursiveUnit above.
+     * @param a  number whose power needs to be found
+     * @param n  power
+     * @return   result
+     */
+    private static double powRecursiveUnitAlternative(double a, int n) {
+        // base case
+        if (n == 0) {
+            return 1;
+        }
+
+        return a * powRecursiveUnitAlternative(a, n - 1);
+    }
+
     public static double powWithIteration(double a, int n) {
         double p = 1;
         for (int i = 1; i <= Math.abs(n); i++) {
@@ -73,6 +91,7 @@ public class Recursion {
 
     // Q DSA made easy book. Page 383
     // Find element with value same as index
+    // when elements are sorted.
     public static void prepIndexSearcher() {
         List<Integer> a = new ArrayList<>();
         a.addAll(Arrays.asList(-3, -2, 0, 1, 2, 3, 6, 66));
@@ -88,7 +107,7 @@ public class Recursion {
         }
 
         if (l > r) {
-            return 0;
+            return -1;
         }
 
         if (a.get(mid) < mid) {

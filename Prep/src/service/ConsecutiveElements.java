@@ -6,7 +6,7 @@ import java.util.Map;
 import util.Printer;
 
 /**
- * Return true if we can use all values to build sequences of 5 consecutive elements.
+ * Return true if we can use ALL values to build sequences of 5 consecutive elements.
  *
  * [1,2,2,3,3,4,4,5,5,6] => true (we can build 2 sequences: 1,2,3,4,5 and 2,3,4,5,6)
  * [1,1,2,2,3,3,4,4,5,5,6] => false (we can build 2 sequences of 1,2,3,4,5, but there is one extra 6)
@@ -49,11 +49,11 @@ public class ConsecutiveElements {
 
     private static boolean doAllElementsMakeConsecutiveSequenceOfFiveElements(final int[] arr) {
         // input validation
-        final int length = arr.length;
-        if (length == 0) {
+        if (arr == null || arr.length < 5) {
             return false;
         }
 
+        final int length = arr.length;
         final Map<Integer, Integer> elementCount = new HashMap<>();
         // populate the map
         for (int i = 0; i < length; i ++) {
@@ -67,6 +67,7 @@ public class ConsecutiveElements {
 
         // iterate over the array
         for (int i = 0; i < length && !elementCount.isEmpty(); i ++) {
+
             if (elementCount.get(arr[i]) != null && elementCount.get(arr[i] - 1) == null) {
                 // this is the first element in a potential consecutive streak
                 int currStreak = 1;
@@ -87,6 +88,7 @@ public class ConsecutiveElements {
                 }
             }
         }
+
         return streaksOfFiveConsecutiveElements > 0 && elementCount.isEmpty();
     }
 

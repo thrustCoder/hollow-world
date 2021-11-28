@@ -1,7 +1,5 @@
 package model;
 
-import sun.security.provider.certpath.AdjacencyList;
-
 import java.util.ArrayList;
 import java.util.List;
 
