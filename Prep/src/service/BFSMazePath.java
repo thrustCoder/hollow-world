@@ -61,26 +61,31 @@ public class BFSMazePath {
      */
     private static int BFS(final int[][] maze, final Cell source, final Cell dest) {
 
+        // input validation
+
+        if (maze == null || maze.length == 0) {
+            return -1;
+        }
+
+        final Grid grid = new Grid(maze);
+
         final int sourceX = source.getX();
         final int sourceY = source.getY();
         final int destX = dest.getX();
         final int destY = dest.getY();
 
-        // input validation
-        if (maze[sourceX][sourceY] != 1 || maze[destX][destY] != 1) {
+        if (!grid.areCoordsWithinBounds(sourceX, sourceY) || !grid.areCoordsWithinBounds(destX, destY)) {
             return -1;
         }
 
-        final Cell sourceCell = new Cell(sourceX, sourceY, maze[sourceX][sourceY], 0);
-
-        final Grid grid = new Grid(maze);
-        final VisitedState[][] visited = grid.getVisited();
+        final Cell sourceCell = grid.getCellMatrix()[sourceX][sourceY];
 
         final Queue<Cell> traversalQ = new LinkedList<>();
 
-        // add source to queue and set VISITING state
-        visited[sourceX][sourceY] = VisitedState.VISITING;
+        // add source to queue and set VISITING state and distance from source.
         traversalQ.add(sourceCell);
+        sourceCell.setVisitedState(VisitedState.VISITING);
+        sourceCell.setDistFromSource(0);
 
         while (!traversalQ.isEmpty()) {
 
@@ -96,16 +101,17 @@ public class BFSMazePath {
 
                 if (grid.areCoordsWithinBounds(adjX, adjY)) {
 
-                    final Cell adjCell = new Cell(adjX, adjY, maze[adjX][adjY], currCell.getDistFromSource() + 1);
+                    final Cell adjCell = grid.getCellMatrix()[adjX][adjY];
 
-                    if (adjCell.isReachable() && VisitedState.UNVISITED.equals(visited[adjX][adjY])) {
+                    if (adjCell.isReachable() && VisitedState.UNVISITED.equals(adjCell.getVisitedState())) {
                         traversalQ.add(adjCell);
-                        visited[adjX][adjY] = VisitedState.VISITING;
+                        adjCell.setDistFromSource(currCell.getDistFromSource() + 1);
+                        adjCell.setVisitedState(VisitedState.VISITING);
                     }
                 }
             }
 
-            visited[currCell.getX()][currCell.getY()] = VisitedState.VISITED;
+            currCell.setVisitedState(VisitedState.VISITED);
         }
 
         // no path b/w source and dest

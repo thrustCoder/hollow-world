@@ -2,23 +2,22 @@ package model;
 
 public class Grid {
     private int[][] matrix;
-    private VisitedState[][] visited;
+    private Cell[][] cellMatrix;
     private int numRows;
     private int numCols;
 
     public Grid(final int[][] matrix) {
         this.matrix = matrix;
-        this.numRows = matrix.length;
-        this.numCols = matrix[0].length;
+        numRows = matrix.length;
+        numCols = matrix[0].length;
 
-        this.visited = new VisitedState[numRows][numCols];
-        // set each entry to false
+        // initialize and populate cellMatrix
+        cellMatrix = new Cell[numRows][numCols];
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
-                this.visited[i][j] = VisitedState.UNVISITED;
+                cellMatrix[i][j] = new Cell(i, j, matrix[i][j], VisitedState.UNVISITED, -1);
             }
         }
-
     }
 
     public boolean areCoordsWithinBounds(final int x, final int y) {
@@ -51,11 +50,11 @@ public class Grid {
         this.numCols = numCols;
     }
 
-    public VisitedState[][] getVisited() {
-        return visited;
+    public Cell[][] getCellMatrix() {
+        return cellMatrix;
     }
 
-    public void setVisited(VisitedState[][] visited) {
-        this.visited = visited;
+    public void setCellMatrix(Cell[][] cellMatrix) {
+        this.cellMatrix = cellMatrix;
     }
 }
