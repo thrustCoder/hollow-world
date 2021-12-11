@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -217,26 +218,50 @@ public class RandomExperiment {
     }
 
     public static void testComparatorSort2dArr() {
-        Integer[][] interval = new Integer[][]{{1,2}, {2,3}, {0,4}};
+        Integer[][] intervals = new Integer[][]{ {1,2}, {0,4}, {2, 3} };
 
         // sort based on first element
-        Arrays.sort(interval, (a, b) -> a[0] - b[0]);
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
 
         /*
             Prints:
             0 4
             1 2
             2 3
-         */
-        for (int i = 0; i < interval.length; i ++) {
-            for (int j = 0; j < interval[i].length; j ++) {
-                Printer.print(interval[i][j] + " ");
+        */
+        for (int i = 0; i < intervals.length; i ++) {
+            for (int j = 0; j < intervals[i].length; j ++) {
+                Printer.print(intervals[i][j] + " ");
             }
             Printer.println();
         }
 
+        // Printer.println("Flattening 2d array:");
         // Prints 041223
-        Arrays.stream(interval).flatMap(Stream::of).forEach(Printer::print);
+        Arrays.stream(intervals).flatMap(s -> Arrays.stream(s)).forEach(x -> Printer.print(x));
+        Printer.println("OR:");
+        Arrays.stream(intervals).flatMap(Arrays::stream).forEach(Printer::print);
+
+        // Creating priority queues with 2d array elements
+        // This is a min heap whose nodes will represent an interval: so they will be of type Integer[]
+        // and they are ordered by their end times (i.e. the second value of each interval)
+        PriorityQueue<Integer[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+
+        // Build heap by passing it a list of individual intervals (i.e. of type Integer[])
+        pq.addAll(Arrays.asList(intervals));
+
+        Printer.println();
+        Printer.println("Printing built Priority Queue:");
+        /*
+            Prints:
+            [1, 2]
+            [2, 3]
+            [0, 4]
+        */
+        while(!pq.isEmpty()) {
+            final Integer[] minInterval = pq.remove();
+            Printer.println("[" + minInterval[0] + ", " + minInterval[1] + "]");
+        }
     }
 
     public static void testCreatingStringFromInt() {
