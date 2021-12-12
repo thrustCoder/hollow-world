@@ -264,6 +264,15 @@ public class RandomExperiment {
         }
     }
 
+    public static void testDoubleMoney() {
+        double money = 0D;
+        if (money == 0D) {
+            Printer.print("Zero");
+        } else {
+            Printer.print("Not zero: " + money);
+        }
+    }
+
     public static void testCreatingStringFromInt() {
         int a = 10;
         String str = String.valueOf(a);
@@ -335,6 +344,21 @@ public class RandomExperiment {
         int y = x.intValue();
         // Prints 3
         Printer.println(y);
+    }
+
+    public static void testSplitOnPeriodDecimalPoint() {
+        double money = 34.45;
+        String moneyStr = String.valueOf(money);
+
+        // This would throw an exception because split() takes a regex
+        // and "." is a special character in regex
+        // String[] parts = moneyStr.split("\\.");
+
+        // So we need to escape it like below
+        String[] parts = moneyStr.split("\\.");
+
+        Printer.println("First = " + parts[0]);
+        Printer.println("Second = " + parts[1]);
     }
 
     public static void testSplitWhitespaces() {
