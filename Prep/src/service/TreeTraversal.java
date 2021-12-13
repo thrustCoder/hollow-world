@@ -95,9 +95,10 @@ public class TreeTraversal {
 
         zigzagTraverse(t.getRoot(), result);
 
-        // print that array
-        // prints 3 2 4 1 5
-        result.stream().forEach(list -> Printer.println(list));
+        // prints the zigzag traversal
+        // result.stream().forEach(list -> Printer.println(list));
+        // same as above
+        result.stream().forEach(Printer::println);
     }
 
     /**
@@ -183,24 +184,15 @@ public class TreeTraversal {
 
         while (!q.isEmpty()) {
 
-            final int initialQSize = q.size();
-            maxWidth = Math.max(maxWidth, initialQSize);
+            final int currLevelSize = q.size();
+            maxWidth = Math.max(maxWidth, currLevelSize);
             int sumOfLevel = 0;
 
-            for (int i = 0; i < initialQSize; i ++) {
+            for (int i = 0; i < currLevelSize; i ++) {
 
                 final TreeNode poppedNode = q.poll();
                 Printer.print(poppedNode.getData() + " ");
                 sumOfLevel += poppedNode.getData();
-
-                // check if the popped node is the last in the current level
-                if (i == initialQSize - 1) {
-                    countLevels ++;
-                    Printer.println();
-
-                    maxSumOfLevel = Math.max(maxSumOfLevel, sumOfLevel);
-                    sumOfLevel = 0;
-                }
 
                 // insert left child if it is non null
                 TreeNode leftChild = poppedNode.getLeft();
@@ -214,6 +206,12 @@ public class TreeTraversal {
                     q.add(rightChild);
                 }
             }
+
+            // level done
+            Printer.println();
+            countLevels ++;
+            maxSumOfLevel = Math.max(maxSumOfLevel, sumOfLevel);
+            sumOfLevel = 0;
         }
 
         Printer.println("No. of levels = " + countLevels);
@@ -275,11 +273,11 @@ public class TreeTraversal {
 
         while (!q.isEmpty()) {
 
-            int initialQSize = q.size();
+            int currLevelSize = q.size();
             final List<Integer> levelData = new ArrayList<>();
             final Stack<Integer> reverseLevelDataStack = new Stack<>();
 
-            for (int i = 0; i < initialQSize; i ++) {
+            for (int i = 0; i < currLevelSize; i ++) {
                 final TreeNode poppedNode = q.poll();
                 if (leftToRight) {
                     levelData.add(poppedNode.getData());
@@ -299,6 +297,8 @@ public class TreeTraversal {
                     q.add(rightChild);
                 }
             }
+
+            // level done
             if (levelData.isEmpty()) {
                 while (!reverseLevelDataStack.isEmpty()) {
                     levelData.add(reverseLevelDataStack.pop());
