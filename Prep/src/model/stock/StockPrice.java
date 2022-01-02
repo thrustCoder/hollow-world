@@ -4,20 +4,22 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public class StockPrice {
-  private Instant date;
+  private Instant instant;
   private BigDecimal value;
 
-  public StockPrice(Instant date, BigDecimal value) {
-    this.date = date;
+  public StockPrice(Instant instant, BigDecimal value) {
+    this.instant = instant;
     this.value = value;
   }
 
-  public Instant getDate() {
-    return this.date;
+  // Getters and setters
+
+  public Instant getInstant() {
+    return this.instant;
   }
 
-  public void setDate(Instant date) {
-    this.date = date;
+  public void setInstant(Instant date) {
+    this.instant = date;
   }
 
   public BigDecimal getValue() {

@@ -4,24 +4,26 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public class BuyAndSellStockProfit {
-  private Instant buyDate;
-  private Instant sellDate;
+  private Instant buyInstant;
+  private Instant sellInstant;
   private BigDecimal profit;
 
-  public BuyAndSellStockProfit(Instant buyDate, Instant sellDate, BigDecimal profit) {
-    this.buyDate = buyDate;
-    this.sellDate = sellDate;
+  public BuyAndSellStockProfit(Instant buyInstant, Instant sellInstant, BigDecimal profit) {
+    this.buyInstant = buyInstant;
+    this.sellInstant = sellInstant;
     this.profit = profit;
   }
 
   @Override
   public String toString() {
     return "{" +
-      " buyDate='" + getBuyDate() + "'" +
-      ", sellDate='" + getSellDate() + "'" +
+      " buyInstant='" + getbuyInstant() + "'" +
+      ", sellInstant='" + getsellInstant() + "'" +
       ", profit='" + getProfit() + "'" +
       "}";
   }
+
+  // Getters and setters
 
   public BigDecimal getProfit() {
     return this.profit;
@@ -31,19 +33,19 @@ public class BuyAndSellStockProfit {
     this.profit = profit;
   }
 
-  public Instant getBuyDate() {
-    return this.buyDate;
+  public Instant getbuyInstant() {
+    return this.buyInstant;
   }
 
-  public void setBuyDate(Instant buyDate) {
-    this.buyDate = buyDate;
+  public void setbuyInstant(Instant buyInstant) {
+    this.buyInstant = buyInstant;
   }
 
-  public Instant getSellDate() {
-    return this.sellDate;
+  public Instant getsellInstant() {
+    return this.sellInstant;
   }
 
-  public void setSellDate(Instant sellDate) {
-    this.sellDate = sellDate;
+  public void setsellInstant(Instant sellInstant) {
+    this.sellInstant = sellInstant;
   }
 }

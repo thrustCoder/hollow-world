@@ -10,8 +10,8 @@ import model.stock.StockPrice;
 import util.Printer;
 
 /**
- * Given a list of stock prices and their instants,
- * return the buy and sell dates such that we make maximum profit.
+ * Given a list of stock prices and their dates represented by instants,
+ * return the buy and sell instants such that we make maximum profit.
  */
 public class MaxStockProfitSolution {
 
@@ -21,7 +21,7 @@ public class MaxStockProfitSolution {
     // Testcase 1 - When single element, should print first element
     stockPrices = Arrays.asList(
       new StockPrice(Instant.parse("2022-01-01T00:00:00Z"), BigDecimal.valueOf(7.87)));
-    // Prints { buyDate='2022-01-01T00:00:00Z', sellDate='2022-01-01T00:00:00Z', profit='0'}
+    // Prints { buyInstant='2022-01-01T00:00:00Z', sellInstant='2022-01-01T00:00:00Z', profit='0'}
     Printer.println(computeMaxStockProfit(stockPrices));
 
     // Testcase 2 - When valid list, should print max profit
@@ -31,7 +31,7 @@ public class MaxStockProfitSolution {
       new StockPrice(Instant.parse("2022-01-02T01:00:00Z"), BigDecimal.valueOf(3)),
       new StockPrice(Instant.parse("2022-01-02T02:00:00Z"), BigDecimal.valueOf(5.67)),
       new StockPrice(Instant.parse("2022-01-05T03:00:00Z"), BigDecimal.valueOf(1.609)));
-    // Prints: { buyDate='2022-01-02T01:00:00Z', sellDate='2022-01-02T02:00:00Z', profit='2.67'}
+    // Prints: { buyInstant='2022-01-02T01:00:00Z', sellInstant='2022-01-02T02:00:00Z', profit='2.67'}
     Printer.println(computeMaxStockProfit(stockPrices));
 
     // Testcase 3 - When stricly decreasing list, should print first element
@@ -41,7 +41,7 @@ public class MaxStockProfitSolution {
       new StockPrice(Instant.parse("2022-01-02T01:00:00Z"), BigDecimal.valueOf(5.67)),
       new StockPrice(Instant.parse("2022-01-02T02:00:00Z"), BigDecimal.valueOf(4.67)),
       new StockPrice(Instant.parse("2022-01-05T03:00:00Z"), BigDecimal.valueOf(1.609)));
-    // Prints: { buyDate='2022-01-01T00:00:00Z', sellDate='2022-01-01T00:00:00Z', profit='0'}
+    // Prints: { buyInstant='2022-01-01T00:00:00Z', sellInstant='2022-01-01T00:00:00Z', profit='0'}
     Printer.println(computeMaxStockProfit(stockPrices));
 
     // Testcase 4 - When equal stock prices, should print first element
@@ -49,13 +49,12 @@ public class MaxStockProfitSolution {
       new StockPrice(Instant.parse("2022-01-01T00:00:00Z"), BigDecimal.valueOf(7.87)),
       new StockPrice(Instant.parse("2022-01-02T00:00:00Z"), BigDecimal.valueOf(7.87)),
       new StockPrice(Instant.parse("2022-01-03T01:00:00Z"), BigDecimal.valueOf(7.87)));
-    // Prints: { buyDate='2022-01-01T00:00:00Z', sellDate='2022-01-01T00:00:00Z', profit='0'}
+    // Prints: { buyInstant='2022-01-01T00:00:00Z', sellInstant='2022-01-01T00:00:00Z', profit='0'}
     Printer.println(computeMaxStockProfit(stockPrices));
   }
 
   /**
-   * An O(n^2) solution would be to compare each element with the other in a nested loop and return the overall max profit.
-   *
+   * An brute force O(n^2) solution would be to compare each element with the other in a nested loop and return the overall max profit.
    * This however, is the O(n) solution for this problem.
    * Solution inspired by: https://www.youtube.com/watch?v=mj7N8pLCJ6w
    *
@@ -67,7 +66,7 @@ public class MaxStockProfitSolution {
    * This simulates potential selling of the stock price at maximum profit.
    *
    * @param stockPrices List of stock prices and their instants.
-   * @return            Buy and sell dates corresponding to the maximium profit.
+   * @return            Buy and sell instants corresponding to the maximium profit.
    */
   private static BuyAndSellStockProfit computeMaxStockProfit(List<StockPrice> stockPrices) {
 
@@ -78,11 +77,11 @@ public class MaxStockProfitSolution {
 
     BuyAndSellStockProfit maxStockProfit = null;
 
-    // initialize maxStockProfit with the first element's dates and zero profit
+    // initialize maxStockProfit with the first element's instants and zero profit
     // this will act as our default return value in case the list is non-increasing.
     StockPrice firstEle = stockPrices.get(0);
     if (firstEle != null) {
-      maxStockProfit = new BuyAndSellStockProfit(firstEle.getDate(), firstEle.getDate(), BigDecimal.ZERO);
+      maxStockProfit = new BuyAndSellStockProfit(firstEle.getInstant(), firstEle.getInstant(), BigDecimal.ZERO);
     }
 
     BigDecimal overallMaxProfit = BigDecimal.valueOf(Double.MIN_VALUE);
@@ -97,7 +96,7 @@ public class MaxStockProfitSolution {
         // this is the BigDecimal way of writing: if (currStockPrice.getValue() < overallMinStockPrice.getValue())
         if (currStockPrice.getValue().compareTo(overallMinStockPrice.getValue()) < 0) {
           overallMinStockPrice.setValue(currStockPrice.getValue());
-          overallMinStockPrice.setDate(currStockPrice.getDate());
+          overallMinStockPrice.setInstant(currStockPrice.getInstant());
 
         } else {
           BigDecimal currProfit = currStockPrice.getValue().subtract(overallMinStockPrice.getValue());
@@ -107,8 +106,8 @@ public class MaxStockProfitSolution {
           if (currProfit.compareTo(overallMaxProfit) > 0 && currProfit.compareTo(BigDecimal.ZERO) > 0) {
             overallMaxProfit = currProfit;
 
-            maxStockProfit.setBuyDate(overallMinStockPrice.getDate());
-            maxStockProfit.setSellDate(currStockPrice.getDate());
+            maxStockProfit.setbuyInstant(overallMinStockPrice.getInstant());
+            maxStockProfit.setsellInstant(currStockPrice.getInstant());
             maxStockProfit.setProfit(overallMaxProfit);
           }
         }
