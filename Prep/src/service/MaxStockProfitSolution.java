@@ -51,6 +51,16 @@ public class MaxStockProfitSolution {
       new StockPrice(Instant.parse("2022-01-03T01:00:00Z"), BigDecimal.valueOf(7.87)));
     // Prints: { buyInstant='2022-01-01T00:00:00Z', sellInstant='2022-01-01T00:00:00Z', profit='0'}
     Printer.println(computeMaxStockProfit(stockPrices));
+
+    // Testcase 5 - When valid list with a later overall minimum, should print max profit
+    stockPrices = Arrays.asList(
+      new StockPrice(Instant.parse("2022-01-01T00:00:00Z"), BigDecimal.valueOf(2)),
+      new StockPrice(Instant.parse("2022-01-02T00:00:00Z"), BigDecimal.valueOf(7)),
+      new StockPrice(Instant.parse("2022-01-03T01:00:00Z"), BigDecimal.valueOf(1)),
+      new StockPrice(Instant.parse("2022-01-04T00:00:00Z"), BigDecimal.valueOf(2)),
+      new StockPrice(Instant.parse("2022-01-05T00:00:00Z"), BigDecimal.valueOf(3)));
+    // Prints: { buyInstant='2022-01-01T00:00:00Z', sellInstant='2022-01-02T00:00:00Z', profit='5'}
+    Printer.println(computeMaxStockProfit(stockPrices));
   }
 
   /**
@@ -78,7 +88,7 @@ public class MaxStockProfitSolution {
     BuyAndSellStockProfit maxStockProfit = null;
 
     // initialize maxStockProfit with the first element's instants and zero profit
-    // this will act as our default return value in case the list is non-increasing.
+    // this will act as our default return value in case the list is non-increasing or has a single element.
     StockPrice firstEle = stockPrices.get(0);
     if (firstEle != null) {
       maxStockProfit = new BuyAndSellStockProfit(firstEle.getInstant(), firstEle.getInstant(), BigDecimal.ZERO);
