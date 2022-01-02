@@ -385,4 +385,11 @@ public class RandomExperiment {
         String a = new String();
         Printer.print(Long.parseLong(a));
     }
+
+    public static void testStringBuilderNull() {
+        StringBuilder sb = new StringBuilder();
+
+        // Prints empty
+        Printer.print(sb.reverse().toString());
+    }
 }

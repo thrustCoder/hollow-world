@@ -3,6 +3,8 @@ package service;
 import util.Printer;
 
 /**
+ * UPDATE 12/30/2021 - This solution doesn't make sense to me, though it works lol. Feel free to ignore.
+ *
  * An alternative way to solve Coin change problem in Gayle Laakmann's Recursion and DP chapter.
  * Given an infinite no. of quarters (25), dimes (10), nickels (5) and pennies (1), write code to calculate the no. of ways
  * of representing n cents.
