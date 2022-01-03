@@ -13,29 +13,29 @@ public class DFS {
 
     public static void prepareDFS() {
         // create a Graph
-        GraphNode a = new GraphNode<Integer>(1);
-        GraphNode b = new GraphNode<Integer>(2);
-        GraphNode c = new GraphNode<Integer>(3);
-        GraphNode d = new GraphNode<Integer>(4);
-        GraphNode e = new GraphNode<Integer>(5);
+        GraphNode<Integer> a = new GraphNode<Integer>(1);
+        GraphNode<Integer> b = new GraphNode<Integer>(2);
+        GraphNode<Integer> c = new GraphNode<Integer>(3);
+        GraphNode<Integer> d = new GraphNode<Integer>(4);
+        GraphNode<Integer> e = new GraphNode<Integer>(5);
 
         /*
-            a(1) ⃗ b(2)
+            a(1) -> b(2)
             ↓
-            c(3) ⃗ d(4) ⃗ e(5)
+            c(3) -> d(4) -> e(5)
          */
         a.setAdjacentNodes(Arrays.asList(b, c));
         c.setAdjacentNodes(Arrays.asList(d));
         d.setAdjacentNodes(Arrays.asList(e));
 
-        if (DFS(b, e)) {
+        if (visitDFS(a, e)) {
             Printer.println("There is a path!");
         } else {
             Printer.println("Sorry no path");
         }
     }
 
-    private static boolean DFS(GraphNode<Integer> node, GraphNode<Integer> end) {
+    private static boolean visitDFS(GraphNode<Integer> node, GraphNode<Integer> end) {
         // base case of recursion
         if (node == null) {
             return false;
@@ -54,7 +54,7 @@ public class DFS {
         boolean pathExists = false;
         for(GraphNode<Integer> adjNode: node.getAdjacentNodes()) {
             if (adjNode.getState() == VisitedState.UNVISITED) {
-                pathExists = DFS(adjNode, end);
+                pathExists = visitDFS(adjNode, end);
                 if (pathExists) {
                     return true;
                 }

@@ -17,29 +17,29 @@ public class BFS {
         // page 221
 
         // create a Graph
-        GraphNode a = new GraphNode<Integer>(1);
-        GraphNode b = new GraphNode<Integer>(2);
-        GraphNode c = new GraphNode<Integer>(3);
-        GraphNode d = new GraphNode<Integer>(4);
-        GraphNode e = new GraphNode<Integer>(5);
+        GraphNode<Integer> a = new GraphNode<Integer>(1);
+        GraphNode<Integer> b = new GraphNode<Integer>(2);
+        GraphNode<Integer> c = new GraphNode<Integer>(3);
+        GraphNode<Integer> d = new GraphNode<Integer>(4);
+        GraphNode<Integer> e = new GraphNode<Integer>(5);
 
         /*
-            a(1) ⃗ b(2)
+            a(1) -> b(2)
             ↓
-            c(3) ⃗ d(4) ⃗ e(5)
+            c(3) -> d(4) -> e(5)
          */
         a.setAdjacentNodes(Arrays.asList(b, c));
         c.setAdjacentNodes(Arrays.asList(d));
         d.setAdjacentNodes(Arrays.asList(e));
 
-        if (BFS(a, e)) {
+        if (visitBFS(a, e)) {
             Printer.println("There is a path!");
         } else {
             Printer.println("Sorry no path");
         }
     }
 
-    public static boolean BFS(GraphNode<Integer> start, GraphNode<Integer> end) {
+    public static boolean visitBFS(GraphNode<Integer> start, GraphNode<Integer> end) {
 
         // initialize queue
         // Queue is an interface, so we use LinkedList to implement Queue
