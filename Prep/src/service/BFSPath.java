@@ -5,13 +5,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import model.GraphNode;
-import model.VisitedState;
 import util.Printer;
 
 /**
  * Created by rpsin on 10/16/2016.
+ *
+ * Given two nodes, check if a path exists using BFS.
  */
-public class BFS {
+public class BFSPath {
     public static void prepareBFS() {
         // Q Gayle Lackmann
         // page 221
@@ -45,24 +46,19 @@ public class BFS {
         // Queue is an interface, so we use LinkedList to implement Queue
         Queue<GraphNode<Integer>> q = new LinkedList<>();
 
-        // start state
-        start.setState(VisitedState.VISITING);
         q.add(start);
 
         // until the queue is empty
         while (!q.isEmpty()) {
             GraphNode<Integer> node = q.poll();
+            node.setIsVisited(true);
 
             // for each node in adjacent nodes
             for (GraphNode<Integer> adjNode: node.getAdjacentNodes()) {
 
                 // you want to visit only if unvisited
-                if (adjNode.getState() == VisitedState.UNVISITED) {
-                    adjNode.setState(VisitedState.VISITING);
-
+                if (!adjNode.getIsVisited()) {
                     // processing
-                    // this block (and an end node) is only required for the purposes of this problem (finding a path).
-                    // not required for a normal BFS traversal, which only requires a start node.
                     if (adjNode == end) {
                         return true;
                     }
@@ -70,7 +66,6 @@ public class BFS {
                     q.add(adjNode);
                 }
             }
-            node.setState(VisitedState.VISITED);
         }
 
         return false;

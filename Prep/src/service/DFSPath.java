@@ -1,15 +1,16 @@
 package service;
 
 import model.GraphNode;
-import model.VisitedState;
 import util.Printer;
 
 import java.util.Arrays;
 
 /**
  * Created by rpsin on 10/16/2016.
+ *
+ * Given two nodes, check if a path exists using DFS.
  */
-public class DFS {
+public class DFSPath {
 
     public static void prepareDFS() {
         // create a Graph
@@ -41,19 +42,16 @@ public class DFS {
             return false;
         }
 
-        // set VISITING state
-        node.setState(VisitedState.VISITING);
+        node.setIsVisited(true);
 
         // processing
-        // this block (and an end node) is only required for the purposes of this problem (finding a path).
-        // not required for a normal DFS traversal, which only requires a start node.
         if (node == end) {
             return true;
         }
 
         boolean pathExists = false;
         for(GraphNode<Integer> adjNode: node.getAdjacentNodes()) {
-            if (adjNode.getState() == VisitedState.UNVISITED) {
+            if (!adjNode.getIsVisited()) {
                 pathExists = visitDFS(adjNode, end);
                 if (pathExists) {
                     return true;
@@ -61,7 +59,6 @@ public class DFS {
             }
         }
 
-        node.setState(VisitedState.VISITED);
         return pathExists;
     }
 }

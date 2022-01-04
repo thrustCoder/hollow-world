@@ -9,11 +9,13 @@ import java.util.List;
 public class GraphNode<T> {
     private T data;
     private VisitedState state;
+    private boolean isVisited;
     private List<GraphNode<T>> adjacentNodes;
 
     public GraphNode(T d) {
         data = d;
         state = VisitedState.UNVISITED;
+        isVisited = false;
         adjacentNodes = new ArrayList<>();
     }
 
@@ -36,5 +38,12 @@ public class GraphNode<T> {
     }
     public void setAdjacentNodes(List<GraphNode<T>> a) {
         adjacentNodes = a;
+    }
+
+    public boolean getIsVisited() {
+        return isVisited;
+    }
+    public void setIsVisited(boolean isVisited) {
+        this.isVisited = isVisited;
     }
 }

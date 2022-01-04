@@ -7,17 +7,17 @@ import java.util.List;
 /**
  * Created by rpsin on 10/16/2016.
  */
-public class Graph {
-    private List<GraphNode> nodes;
+public class Graph<T> {
+    private List<GraphNode<T>> nodes;
 
-    public Graph(List<GraphNode> n) {
+    public Graph(List<GraphNode<T>> n) {
         nodes = n;
     }
 
-    public List<GraphNode> getNodes() {
+    public List<GraphNode<T>> getNodes() {
         return nodes;
     }
-    public void setNodes(List<GraphNode> n) {
+    public void setNodes(List<GraphNode<T>> n) {
         nodes = n;
     }
 }
