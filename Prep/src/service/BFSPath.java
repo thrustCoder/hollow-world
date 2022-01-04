@@ -33,14 +33,23 @@ public class BFSPath {
         c.setAdjacentNodes(Arrays.asList(d));
         d.setAdjacentNodes(Arrays.asList(e));
 
-        if (visitBFS(a, e)) {
+        if (BFS(a, e)) {
             Printer.println("There is a path!");
         } else {
             Printer.println("Sorry no path");
         }
     }
 
-    public static boolean visitBFS(GraphNode<Integer> start, GraphNode<Integer> end) {
+    public static boolean BFS(GraphNode<Integer> start, GraphNode<Integer> end) {
+        // input validation
+
+        if (start == null || end == null) {
+            return false;
+        }
+
+        if (start == end) {
+            return true;
+        }
 
         // initialize queue
         // Queue is an interface, so we use LinkedList to implement Queue

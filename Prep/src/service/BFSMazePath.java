@@ -78,22 +78,23 @@ public class BFSMazePath {
             return -1;
         }
 
+        if (sourceX == destX && sourceY == destY) {
+            return 0;
+        }
+
         final Cell sourceCell = grid.getCellMatrix()[sourceX][sourceY];
 
         final Queue<Cell> traversalQ = new LinkedList<>();
 
         // add source to queue and set VISITING state and distance from source.
         traversalQ.add(sourceCell);
+        // can also just use a boolean isVisited flag
         sourceCell.setVisitedState(VisitedState.VISITING);
         sourceCell.setDistFromSource(0);
 
         while (!traversalQ.isEmpty()) {
 
             final Cell currCell = traversalQ.poll();
-
-            if (currCell.getX() == destX && currCell.getY() == destY) {
-                return currCell.getDistFromSource();
-            }
 
             for (final Cell validDirection : getValidDirections()) {
                 final int adjX = currCell.getX() + validDirection.getX();
@@ -107,6 +108,10 @@ public class BFSMazePath {
                         traversalQ.add(adjCell);
                         adjCell.setDistFromSource(currCell.getDistFromSource() + 1);
                         adjCell.setVisitedState(VisitedState.VISITING);
+
+                        if (adjCell.getX() == destX && adjCell.getY() == destY) {
+                            return adjCell.getDistFromSource();
+                        }
                     }
                 }
             }

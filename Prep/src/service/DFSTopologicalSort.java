@@ -4,13 +4,16 @@ import model.GraphNode;
 import util.Printer;
 
 import java.util.Arrays;
+import java.util.Stack;
 
 /**
- * DFS Traversal of a graph.
- * Note, this will traverse ALL the nodes of the graph
- * even if they are disconnected.
+ * Topological Sort of a graph.
+ * Uses DFS along with a Stack.
+ *
+ * Ref. https://www.geeksforgeeks.org/topological-sorting/
  */
-public class DFSTraversal {
+public class DFSTopologicalSort {
+    private static Stack<GraphNode<Integer>> reverseTopologicalSort;
 
     public static void prepareDFS() {
         // create a Graph
@@ -33,7 +36,11 @@ public class DFSTraversal {
         b.setAdjacentNodes(Arrays.asList(c));
         c.setAdjacentNodes(Arrays.asList(a));
 
-        Graph<Integer> g = new Graph<Integer>(Arrays.asList(e, d, c, b, a, o));
+        // Graph<Integer> g = new Graph<Integer>(Arrays.asList(e, d, c, b, a, o));
+        Graph<Integer> g = new Graph<Integer>(Arrays.asList(o, a, b, c, d, e));
+
+        // initialize stack
+        reverseTopologicalSort = new Stack<>();
 
         // iterate over all the nodes (vertices) of the graph as long as they are not already visited.
         // this enables us to reach all the vertices even if the graph is disconnected.
@@ -42,6 +49,11 @@ public class DFSTraversal {
             DFS(node);
           }
         });
+
+        // Print the Topological sort order
+        while (!reverseTopologicalSort.isEmpty()) {
+            Printer.print(reverseTopologicalSort.pop().data() + " ");
+        }
     }
 
     private static void DFS(GraphNode<Integer> node) {
@@ -53,13 +65,15 @@ public class DFSTraversal {
 
         node.setIsVisited(true);
 
-        // Prints 5 2 3 1 0 4
-        Printer.print(node.data() + " ");
+        // don't print yet
 
         for(GraphNode<Integer> adjNode: node.getAdjacentNodes()) {
             if (!adjNode.getIsVisited()) {
                 DFS(adjNode);
             }
         }
+
+        // *push* or *add* can be used interchangeably
+        reverseTopologicalSort.push(node);
     }
 }

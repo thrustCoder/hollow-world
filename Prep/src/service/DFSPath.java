@@ -29,14 +29,14 @@ public class DFSPath {
         c.setAdjacentNodes(Arrays.asList(d));
         d.setAdjacentNodes(Arrays.asList(e));
 
-        if (visitDFS(a, e)) {
+        if (DFS(a, e)) {
             Printer.println("There is a path!");
         } else {
             Printer.println("Sorry no path");
         }
     }
 
-    private static boolean visitDFS(GraphNode<Integer> node, GraphNode<Integer> end) {
+    private static boolean DFS(GraphNode<Integer> node, GraphNode<Integer> end) {
         // base case of recursion
         if (node == null) {
             return false;
@@ -52,7 +52,7 @@ public class DFSPath {
         boolean pathExists = false;
         for(GraphNode<Integer> adjNode: node.getAdjacentNodes()) {
             if (!adjNode.getIsVisited()) {
-                pathExists = visitDFS(adjNode, end);
+                pathExists = DFS(adjNode, end);
                 if (pathExists) {
                     return true;
                 }

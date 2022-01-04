@@ -40,12 +40,12 @@ public class BFSTraversal {
         // this enables us to reach all the vertices even if the graph is disconnected.
         g.getNodes().stream().forEach(node -> {
             if (!node.getIsVisited()) {
-                visitBFS(node);
+                BFS(node);
             }
         });
     }
 
-    public static void visitBFS(GraphNode<Integer> start) {
+    public static void BFS(GraphNode<Integer> start) {
         Queue<GraphNode<Integer>> q = new LinkedList<>();
 
         q.add(start);
