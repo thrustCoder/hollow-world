@@ -11,12 +11,14 @@ public class GraphNode<T> {
     private VisitedState state;
     private boolean isVisited;
     private List<GraphNode<T>> adjacentNodes;
+    private List<GraphEdge<T>> adjacentEdges; // needed for Graph problems having distance/edge weight
 
     public GraphNode(T d) {
         data = d;
         state = VisitedState.UNVISITED;
         isVisited = false;
         adjacentNodes = new ArrayList<>();
+        adjacentEdges = new ArrayList<>();
     }
 
     public T data() {
@@ -45,5 +47,13 @@ public class GraphNode<T> {
     }
     public void setIsVisited(boolean isVisited) {
         this.isVisited = isVisited;
+    }
+
+    public List<GraphEdge<T>> getAdjacentEdges() {
+        return this.adjacentEdges;
+    }
+
+    public void setAdjacentEdges(List<GraphEdge<T>> adjacentEdges) {
+        this.adjacentEdges = adjacentEdges;
     }
 }
