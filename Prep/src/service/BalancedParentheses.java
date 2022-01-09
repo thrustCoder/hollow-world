@@ -15,17 +15,19 @@ public class BalancedParentheses {
     private static final String CLOSE_PAREN = ")";
     private static final String EMPTY_STRING = "";
 
+    private static List<String> allParens;
+
     public static void generateBalancedParens() {
         Printer.print(generateParenthesis(3));
     }
 
     public static List<String> generateParenthesis(int n) {
-        final List<String> allParens = new ArrayList<>();
-        recursiveGenParentheses(EMPTY_STRING, allParens, 0, 0, n);
+        allParens = new ArrayList<>();
+        recursiveGenParentheses(EMPTY_STRING, 0, 0, n);
         return allParens;
     }
 
-    private static void recursiveGenParentheses(final String currentParenString, final List<String> allParens, final int openCount, final int closeCount, final int n) {
+    private static void recursiveGenParentheses(final String currentParenString, final int openCount, final int closeCount, final int n) {
         // base case
         if (closeCount == n) {
             // done generating one combination; add it to the list
@@ -35,12 +37,12 @@ public class BalancedParentheses {
 
         if (openCount < n) {
             // increment openCount
-            recursiveGenParentheses(currentParenString.concat(OPEN_PAREN), allParens, openCount + 1, closeCount, n);
+            recursiveGenParentheses(currentParenString + OPEN_PAREN, openCount + 1, closeCount, n);
         }
 
-        if (openCount > closeCount) {
+        if (closeCount < openCount) {
             // increment closeCount
-            recursiveGenParentheses(currentParenString.concat(CLOSE_PAREN), allParens, openCount, closeCount + 1, n);
+            recursiveGenParentheses(currentParenString + CLOSE_PAREN, openCount, closeCount + 1, n);
         }
     }
 }

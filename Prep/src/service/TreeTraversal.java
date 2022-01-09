@@ -5,10 +5,13 @@ import util.Printer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.TreeMap;
 
 /**
  * Created by rpsin on 10/16/2016.
@@ -307,5 +310,128 @@ public class TreeTraversal {
             result.add(levelData);
             leftToRight = !leftToRight;
         }
+    }
+
+    /**
+     * This was asked to me in Google interview.
+     * Given a tree, recursively delete its leaves and print them.
+     * Note, once a node's children are deleted,
+     * you need to immediately delete the current node as well and add it to the result.
+     *
+     * E.g. The result of the tree depicted at the top, should be: 1, 2, 6, 7, 5, 4, 3
+     */
+    public static void deleteAndPrintLeaves() {
+        final Tree t = prepCreateArray();
+        List<Integer> result = new ArrayList<>();
+
+        TreeNode root = deleteAndPrintLeavesRecurse(t.getRoot(), result);
+
+        result.stream().forEach(val -> Printer.print(val + " "));
+        Printer.println("Node should be null: " + String.valueOf(root == null));
+    }
+
+    private static TreeNode deleteAndPrintLeavesRecurse(TreeNode node, List<Integer> result) {
+        if (node == null) {
+            return node;
+        }
+
+        node.setLeft(deleteAndPrintLeavesRecurse(node.getLeft(), result));
+        node.setRight(deleteAndPrintLeavesRecurse(node.getRight(), result));
+
+        // at this point the node's children have been deleted (i.e. set to null)
+        // so it's safe to add it to result, since the node is a leaf now.
+        result.add(node.getData());
+        node = null;
+        return node;
+    }
+
+    ////////////////////////////////
+    // FOLLOW UP TO ABOVE QUESTION//
+    ////////////////////////////////
+    // Now print all the leaves before printing the newly "leaved" parents
+    // I.e. don't print the parent immediately after its children are deleted.
+    // For the sake of simplicity, you need not actually delete the leaves.
+    // Just print the order of the leaves in which they may be deleted.
+    // E.g. for the same tree above, the result should be: 1 6 7 2 5 4 3
+    public static void deleteAndPrintLeavesFollowUp() {
+        Tree t = prepCreateArray();
+        List<Integer> result = new ArrayList<>();
+
+        // A brute-force solution would be to
+        // iteratively delete and print out the leaves of the tree:
+        TreeNode root = t.getRoot();
+
+        while (root != null) {
+            root = deleteAndPrintLeavesFollowUpNonOptimalSoln(t.getRoot(), result);
+        }
+
+        result.stream().forEach(val -> Printer.print(val + " "));
+        Printer.println("Node should be null: " + String.valueOf(root == null));
+
+        ///////////////////
+        // Optimal solution
+        ///////////////////
+        t = prepCreateArray();
+
+        Map<Integer, List<TreeNode>> iterationToNode = new TreeMap<>();
+        deleteAndPrintLeavesFollowUpOptimalSoln(t.getRoot(), iterationToNode);
+
+        iterationToNode.values().stream().forEach(list -> {
+            list.stream().forEach(node -> Printer.print(node.getData() + " "));
+        });
+    }
+
+    /**
+     * Brute force solution to delete and print leaves of tree
+     */
+    private static TreeNode deleteAndPrintLeavesFollowUpNonOptimalSoln(TreeNode node, List<Integer> result) {
+        if (node == null) {
+            return node;
+        }
+
+        if (node.getLeft() == null && node.getRight() == null) {
+            result.add(node.getData());
+            node = null;
+            return node;
+        }
+
+        node.setLeft(deleteAndPrintLeavesFollowUpNonOptimalSoln(node.getLeft(), result));
+        node.setRight(deleteAndPrintLeavesFollowUpNonOptimalSoln(node.getRight(), result));
+
+        return node;
+    }
+
+    /**
+     * O(N) optimal solution for above problem.
+     * Here we will not actually delete the nodes.
+     * This solution works on the idea that a node will be deleted AFTER
+     * its nodes are deleted (i.e. in the iteration + 1 where iteration is the max of the iterations when left and right child are deleted)
+     * We will keep a map of iteration to list of nodes that are deleted in that iteration.
+     * Finally we print the nodes in the order of iteration.
+     * Notice, we use a treemap to iterate in the order of iteration (we could have also used a 1-based array).
+     * Ref. https://www.youtube.com/watch?v=QM75wKc8HBU
+     */
+    private static int deleteAndPrintLeavesFollowUpOptimalSoln(TreeNode node, Map<Integer, List<TreeNode>> iterationToNode) {
+        if (node == null) {
+            return 0;
+        }
+
+        int leftIteration = deleteAndPrintLeavesFollowUpOptimalSoln(node.getLeft(), iterationToNode);
+        int rightIteration = deleteAndPrintLeavesFollowUpOptimalSoln(node.getRight(), iterationToNode);
+
+        int deleteIteration = Math.max(leftIteration, rightIteration) + 1;
+
+        iterationToNode.compute(deleteIteration, (k, v) -> {
+            if (v == null) {
+                List<TreeNode> newList = new ArrayList<>();
+                newList.add(node);
+                return newList;
+            } else {
+                v.add(node);
+                return v;
+            }
+        });
+
+        return deleteIteration;
     }
 }
