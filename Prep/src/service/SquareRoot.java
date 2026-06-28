@@ -7,7 +7,7 @@ import util.Printer;
 
 public class SquareRoot {
     public static void invoke() {
-        Printer.println(getFloorSqrt(3l));
+        Printer.println(getFloorSqrt(3L));
 
         Printer.println(getPrecisionSqrt(new BigDecimal("10.55"), 3));
     }

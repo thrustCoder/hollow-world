@@ -12,7 +12,7 @@ import util.Printer;
  * [1,1,2,2,3,3,4,4,5,5,6] => false (we can build 2 sequences of 1,2,3,4,5, but there is one extra 6)
  * [1,2,3,4,5,6,7,8,9,5] => true (we can build 2 sequences: 1,2,3,4,5 and 5,6,7,8,9)
  *
- * This was asked to Olga in her Google interviews.
+ * This was asked to OS in her Google interviews.
  * This soln is inspired by the soln to a similar problem in https://afteracademy.com/blog/longest-consecutive-sequence
  */
 public class ConsecutiveElements {

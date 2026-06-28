@@ -43,7 +43,7 @@ public class Recursion {
         }
     }
 
-    public static double powRecursiveUnit(double a, int n) {
+    private static double powRecursiveUnit(double a, int n) {
         if (n == 0) {
             return 1;
         }
